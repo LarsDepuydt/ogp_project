@@ -41,6 +41,7 @@ public class BreakoutState {
 
 		for (var ball : balls) {
 			var newVelocity =  ball.getVelocity();
+			var addBall = true;
 
 			/*Ball hit left or right side*/
 			if (ball.getCenter().getX() - ball.getDiameter() < 0 || ball.getCenter().getX() + ball.getDiameter() > getBottomRight().getX()) {
@@ -48,53 +49,88 @@ public class BreakoutState {
 				newVelocity = ball.getVelocity().mirrorOver(Vector.LEFT);
 			}
 
-			/*Ball hit paddle*/
-			if ((ball.getCenter().getY() + ball.getDiameter() >= paddle.getCenter().getY() - paddle.getSize().getY() && ball.getCenter().getY() + ball.getDiameter() <= paddle.getCenter().getY() + paddle.getSize().getY() )
-				&& (ball.getCenter().getX() >= paddle.getCenter().getX() - paddle.getSize().getX() && ball.getCenter().getX() <=  paddle.getCenter().getX() + paddle.getSize().getX())) {
-				System.out.println("hit paddle");
-				newVelocity = ball.getVelocity().mirrorOver(Vector.UP);
+			/*Ball hit top border*/
+			if(ball.getCenter().getY() - ball.getDiameter() < 0) {
+				System.out.println("hit top wall");
+				newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
+			}
+
+			/*Ball hit bottom of the field*/
+			if (ball.getCenter().getY() + ball.getDiameter() > getBottomRight().getY()) {
+				addBall = false;
 			}
 
 			/*Ball hit block*/
 			for (var block : blocks) {
 				if ((ball.getCenter().getY() - ball.getDiameter() <= block.getBlockBR().getY() && ball.getCenter().getY() - ball.getDiameter() >= block.getBlockTL().getY())
-						&& (ball.getCenter().getX() >= block.getBlockTL().getX() && ball.getCenter().getX() <= block.getBlockBR().getX())
+						&& (ball.getCenter().getX() + ball.getDiameter() >= block.getBlockTL().getX() && ball.getCenter().getX() - ball.getDiameter() <= block.getBlockBR().getX())
 				) {
 					System.out.println("hit block");
-					newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
+					if (ball.getVelocity().product(Vector.DOWN) < 0) {
+						newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
+					} else {
+						newVelocity = ball.getVelocity().mirrorOver(Vector.UP);
+					}
 				} else {
 					newBlocks.add(block);
 				}
 			}
 			this.blocks = newBlocks.toArray(new BlockState[]{});
 
+			/*Ball hit paddle*/
+			if ((ball.getCenter().getY() + ball.getDiameter() >= paddle.getCenter().getY() - paddle.getSize().getY() && ball.getCenter().getY() + ball.getDiameter() <= paddle.getCenter().getY() + paddle.getSize().getY() )
+					&& (ball.getCenter().getX() + ball.getDiameter() >= paddle.getCenter().getX() - paddle.getSize().getX() && ball.getCenter().getX() - ball.getDiameter() <=  paddle.getCenter().getX() + paddle.getSize().getX())) {
+				System.out.println("hit paddle");
+				System.out.println(paddleDir);
+				System.out.println(ball.getVelocity().mirrorOver(Vector.UP));
+				System.out.println(ball.getVelocity().mirrorOver(Vector.UP).plus(ball.getVelocity().scaled(paddleDir/5)));
+
+				newVelocity = ball.getVelocity().mirrorOver(Vector.UP).plus(ball.getVelocity().scaled(paddleDir/5));
+			}
+
 
 			var newCenter = new Point(ball.getCenter().plus(newVelocity).getX(), ball.getCenter().plus(newVelocity).getY());
 			var newBall = new BallState(newCenter, ball.getDiameter(), newVelocity);
-			newBalls.add(newBall);
+
+			if (addBall) { newBalls.add(newBall); }
 		}
 		this.balls = newBalls.toArray(new BallState[]{});
 	}
 
-	public void movePaddleRight() {
+	private PaddleState movePaddle(int size) {
 		var paddle = getPaddle();
-		var newPoint = new Point(paddle.getCenter().getX() + 10, paddle.getCenter().getY());
+		var newX = paddle.getCenter().getX();
 
-		this.paddle = new PaddleState(newPoint, paddle.getSize());
+		var condition = paddle.getCenter().getX() - paddle.getSize().getX() > 0;
+		if (size > 0) {
+			condition = paddle.getCenter().getX() + paddle.getSize().getX() < getBottomRight().getX();
+		}
+
+		if ( condition ) {
+			newX =paddle.getCenter().getX() + size;
+		}
+
+		var newPoint = new Point(newX, paddle.getCenter().getY());
+		return new PaddleState(newPoint, paddle.getSize());
+	}
+
+	public void movePaddleRight() {
+		this.paddle = movePaddle(10);
 	}
 
 	public void movePaddleLeft() {
-		var paddle = getPaddle();
-		var newPoint = new Point(paddle.getCenter().getX() - 10, paddle.getCenter().getY());
-
-		this.paddle = new PaddleState(newPoint, paddle.getSize());
+		this.paddle = movePaddle(-10);
 	}
-	
+
 	public boolean isWon() {
-		return false;
+		var balls = getBalls();
+		var blocks = getBlocks();
+
+		return balls.length > 0 && blocks.length <= 0;
 	}
 
 	public boolean isDead() {
-		return false;
+		var balls = getBalls();
+		return balls.length <= 0;
 	}
 }
