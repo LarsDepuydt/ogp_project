@@ -66,11 +66,20 @@ public class BreakoutState {
 						&& (ball.getCenter().getX() + ball.getDiameter() >= block.getBlockTL().getX() && ball.getCenter().getX() - ball.getDiameter() <= block.getBlockBR().getX())
 				) {
 					System.out.println("hit block");
-					if (ball.getVelocity().product(Vector.DOWN) < 0) {
-						newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
+					if (ball.getCenter().getY() <= block.getBlockBR().getY() && ball.getCenter().getY() >= block.getBlockTL().getY()) {
+						if (ball.getCenter().getX() < (block.getBlockTL().getX() + (block.getBlockBR().getX() - block.getBlockTL().getX())/2)) {
+							newVelocity = ball.getVelocity().mirrorOver(Vector.LEFT);
+						} else {
+							newVelocity = ball.getVelocity().mirrorOver(Vector.RIGHT);
+						}
 					} else {
-						newVelocity = ball.getVelocity().mirrorOver(Vector.UP);
+						if (ball.getVelocity().product(Vector.DOWN) < 0) {
+							newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
+						} else {
+							newVelocity = ball.getVelocity().mirrorOver(Vector.UP);
+						}
 					}
+
 				} else {
 					newBlocks.add(block);
 				}
@@ -81,11 +90,10 @@ public class BreakoutState {
 			if ((ball.getCenter().getY() + ball.getDiameter() >= paddle.getCenter().getY() - paddle.getSize().getY() && ball.getCenter().getY() + ball.getDiameter() <= paddle.getCenter().getY() + paddle.getSize().getY() )
 					&& (ball.getCenter().getX() + ball.getDiameter() >= paddle.getCenter().getX() - paddle.getSize().getX() && ball.getCenter().getX() - ball.getDiameter() <=  paddle.getCenter().getX() + paddle.getSize().getX())) {
 				System.out.println("hit paddle");
-				System.out.println(paddleDir);
-				System.out.println(ball.getVelocity().mirrorOver(Vector.UP));
-				System.out.println(ball.getVelocity().mirrorOver(Vector.UP).plus(ball.getVelocity().scaled(paddleDir/5)));
+				System.out.println(ball.getVelocity().mirrorOver(Vector.DOWN));
+				System.out.println(ball.getVelocity().mirrorOver(Vector.DOWN).plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir)));
 
-				newVelocity = ball.getVelocity().mirrorOver(Vector.UP).plus(ball.getVelocity().scaled(paddleDir/5));
+				newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN).plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir));
 			}
 
 
