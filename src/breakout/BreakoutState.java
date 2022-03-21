@@ -102,6 +102,48 @@ public class BreakoutState {
 	 */
 	public Point getBottomRight() { return bottomRight; }
 
+	public Vector checkForCollision(Point pointTL, Point pointBR, BallState ball) {
+		var ballCenterX = ball.getCenter().getX();
+		var ballCenterY = ball.getCenter().getY();
+		var diameter = ball.getDiameter();
+
+		var ballVelocityY = ball.getVelocity().getY();
+		var ballVelocityX = ball.getVelocity().getX();
+
+		var blockTopY = pointTL.getY();
+		var blockBottomY = pointBR.getY();
+		var blockLeftX = pointTL.getX();
+		var blockRightX = pointBR.getX();
+
+
+		var newVelocity = new Vector(0,0);
+
+		// top or bottom side of object
+		if (ballCenterY + diameter >= blockTopY && ballCenterY - diameter <= blockBottomY	// conditions on the Y-axis
+				&& ballCenterX >= blockLeftX && ballCenterX <= blockRightX ) {				// conditions on the X-axis
+			// top side of object
+			if (ballVelocityY > 0) {
+				newVelocity = ball.getVelocity().mirrorOver(Vector.UP);
+			// bottom side of element
+			} else {
+				newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
+			}
+
+		// left or right side of object
+		} else if (ballCenterY >= blockTopY && ballCenterY <= blockBottomY									// conditions on the Y-axis
+				&& ballCenterX + diameter >= blockLeftX && ballCenterX - diameter <= blockRightX ) {		// conditions on the X-axis
+			// left side of object
+			if (ballVelocityX > 0) {
+				newVelocity = ball.getVelocity().mirrorOver(Vector.LEFT);
+			// right side of element
+			} else {
+				newVelocity = ball.getVelocity().mirrorOver(Vector.RIGHT);
+			}
+		}
+
+		return newVelocity;
+	}
+
 	/* Updates the BreakoutState according to one tick has passed. */
 	public void tick(int paddleDir) {
 		var balls = getBalls();
@@ -114,16 +156,22 @@ public class BreakoutState {
 			var newVelocity =  ball.getVelocity();
 			var addBall = true;
 
-			/*Ball hit left or right side*/
-			if (ball.getCenter().getX() - ball.getDiameter() < 0 || ball.getCenter().getX() + ball.getDiameter() > getBottomRight().getX()) {
-				System.out.println("hit wall");
-				newVelocity = ball.getVelocity().mirrorOver(Vector.LEFT);
+			/* Ball hit left side */
+			var left = checkForCollision(new Point(-100, Point.ORIGIN.getY()), new Point(Point.ORIGIN.getX(), getBottomRight().getY()), ball);
+			if (left.getSquareLength() != 0) {
+				newVelocity = left;
 			}
 
-			/*Ball hit top border*/
-			if(ball.getCenter().getY() - ball.getDiameter() < 0) {
-				System.out.println("hit top wall");
-				newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
+			/* Ball hit right side */
+			var right = checkForCollision(new Point(getBottomRight().getX(), Point.ORIGIN.getY()), new Point(getBottomRight().getX() + 100, getBottomRight().getY()), ball);
+			if (right.getSquareLength() != 0) {
+				newVelocity = right;
+			}
+
+			/* Ball hit top side */
+			var top = checkForCollision(new Point(Point.ORIGIN.getX(), -100), new Point(getBottomRight().getX(), Point.ORIGIN.getY()), ball);
+			if (top.getSquareLength() != 0) {
+				newVelocity = top;
 			}
 
 			/*Ball hit bottom of the field*/
@@ -131,40 +179,29 @@ public class BreakoutState {
 				addBall = false;
 			}
 
-			/*Ball hit block*/
+			/* Ball hit block */
 			for (var block : blocks) {
-				if ((ball.getCenter().getY() - ball.getDiameter() <= block.getBlockBR().getY() && ball.getCenter().getY() - ball.getDiameter() >= block.getBlockTL().getY())
-						&& (ball.getCenter().getX() + ball.getDiameter() >= block.getBlockTL().getX() && ball.getCenter().getX() - ball.getDiameter() <= block.getBlockBR().getX())
-				) {
-					System.out.println("hit block");
-					if (ball.getCenter().getY() <= block.getBlockBR().getY() && ball.getCenter().getY() >= block.getBlockTL().getY()) {
-						if (ball.getCenter().getX() < (block.getBlockTL().getX() + (block.getBlockBR().getX() - block.getBlockTL().getX())/2)) {
-							newVelocity = ball.getVelocity().mirrorOver(Vector.LEFT);
-						} else {
-							newVelocity = ball.getVelocity().mirrorOver(Vector.RIGHT);
-						}
-					} else {
-						if (ball.getVelocity().product(Vector.DOWN) < 0) {
-							newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN);
-						} else {
-							newVelocity = ball.getVelocity().mirrorOver(Vector.UP);
-						}
-					}
+				var blockHitVelocity = checkForCollision(block.getBlockTL(), block.getBlockBR(), ball);
 
+				if ((blockHitVelocity.getSquareLength() != 0)
+				) {
+					newVelocity = blockHitVelocity;
 				} else {
 					newBlocks.add(block);
 				}
 			}
 			this.blocks = newBlocks.toArray(new BlockState[]{});
 
-			/*Ball hit paddle*/
-			if ((ball.getCenter().getY() + ball.getDiameter() >= paddle.getCenter().getY() - paddle.getSize().getY() && ball.getCenter().getY() + ball.getDiameter() <= paddle.getCenter().getY() + paddle.getSize().getY() )
-					&& (ball.getCenter().getX() + ball.getDiameter() >= paddle.getCenter().getX() - paddle.getSize().getX() && ball.getCenter().getX() - ball.getDiameter() <=  paddle.getCenter().getX() + paddle.getSize().getX())) {
-				System.out.println("hit paddle");
-				System.out.println(ball.getVelocity().mirrorOver(Vector.DOWN));
-				System.out.println(paddleDir);
+			/* Ball hit paddle */
+			var center = paddle.getCenter();
+			var size = paddle.getSize();
 
-				newVelocity = ball.getVelocity().plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir)).mirrorOver(Vector.DOWN);
+			var paddleHit = checkForCollision(center.minus(size), center.plus(size), new BallState(ball.getCenter(), ball.getDiameter(), ball.getVelocity().plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir))));
+			if (paddleHit.getSquareLength() != 0) {
+				System.out.println("hit paddle");
+				System.out.println(paddleDir);
+				System.out.println(ball.getVelocity());
+				newVelocity = paddleHit;
 				System.out.println(newVelocity);
 			}
 
