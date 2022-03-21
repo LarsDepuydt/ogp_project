@@ -28,6 +28,10 @@ public class BreakoutState {
 	 * 	| balls != null
 	 * @throws IllegalArgumentException if blocks are equal to null
 	 * 	| blocks != null
+	 * @throws IllegalArgumentException if bottomRight is equal to null
+	 * 	| bottomRight != null
+	 * @throws IllegalArgumentException if paddle is equal to null
+	 * 	| paddle != null
 	 * @throws IllegalArgumentException if bottomRight coordinates are smaller than the ORIGIN coordinates
 	 *  | !(bottomRight.getX() >  Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY())
 	 * @throws IllegalArgumentException if the paddle center is smaller than the ORIGIN X coordinate or larger than the bottomRight X coordinate
@@ -48,6 +52,12 @@ public class BreakoutState {
 		}
 		if (blocks == null) {
 			throw new IllegalArgumentException("blocks_not_null");
+		}
+		if (bottomRight == null) {
+			throw new IllegalArgumentException("bottomRight_not_null");
+		}
+		if (paddle == null) {
+			throw new IllegalArgumentException("paddle_not_null");
 		}
 		if (!(bottomRight.getX() >  Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY())) {
 			throw new IllegalArgumentException("bottomRight_out_of_range");
@@ -152,9 +162,10 @@ public class BreakoutState {
 					&& (ball.getCenter().getX() + ball.getDiameter() >= paddle.getCenter().getX() - paddle.getSize().getX() && ball.getCenter().getX() - ball.getDiameter() <=  paddle.getCenter().getX() + paddle.getSize().getX())) {
 				System.out.println("hit paddle");
 				System.out.println(ball.getVelocity().mirrorOver(Vector.DOWN));
-				System.out.println(ball.getVelocity().mirrorOver(Vector.DOWN).plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir)));
+				System.out.println(paddleDir);
 
-				newVelocity = ball.getVelocity().mirrorOver(Vector.DOWN).plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir));
+				newVelocity = ball.getVelocity().plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir)).mirrorOver(Vector.DOWN);
+				System.out.println(newVelocity);
 			}
 
 
