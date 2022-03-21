@@ -39,7 +39,7 @@ public class BlockState {
     }
     
     /* Returns this instance blockTl point */
-    public Point getBlockTL() {
+        public Point getBlockTL() {
         return blockTL;
     }
 
