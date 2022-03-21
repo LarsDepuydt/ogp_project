@@ -10,6 +10,14 @@ package breakout;
  * 	| getBlockBR().getX() > 0 && getBlockBR().getY() >  0 && getBlockBR().getX() > getBlockTL().getX() && getBlockBR().getY() > getBlockTL().getY()
  */
 public class BlockState {
+
+    /**
+     * @invar | blockTL.getX() >= 0 && blockTL.getY() >= 0
+     * @invar | blockBR.getX() >= 0 && blockBR.getY() >= 0
+     * @invar | blockBR.getX() > blockTL.getX() && blockBR.getY() > blockTL.getY()
+     *
+     * @representationObject
+     */
     private final Point blockTL;
     private final Point blockBR;
     

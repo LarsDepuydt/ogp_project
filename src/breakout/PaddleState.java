@@ -10,7 +10,14 @@ package breakout;
  * 	| getSize().getX() > 0 && getSize().getY() > 0
  */
 public class PaddleState {
-	private final Point center;
+
+    /**
+     * @invar | center.getX() > 0 && center.getY() > 0
+     * @invar | size.getX() > 0 && size.getY() > 0
+     *
+     * @representationObject
+     */
+    private final Point center;
     private final Vector size;
     
     /**

@@ -2,36 +2,97 @@ package breakout;
 
 import java.util.ArrayList;
 
+/**
+ * Each instance of this class stores the state of the game, these are all the balls, the blocks, the bottomRight point
+ * of the playing field and the paddle.
+ *
+ *
+ */
 public class BreakoutState {
 
+	/**
+	 * @invar | balls != null
+	 * @invar | blocks != null
+	 * @invar | bottomRight.getX() > Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY()
+	 * @invar | paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX()
+	 */
 	private BallState[] balls;
 	private BlockState[] blocks;
 	private Point bottomRight;
 	private PaddleState paddle;
-	
+
+	/**
+	 * Initializes this object with the given balls, blocks, bottomRight point and paddle.
+	 *
+	 * @throws IllegalArgumentException if balls are equal to null
+	 * 	| balls != null
+	 * @throws IllegalArgumentException if blocks are equal to null
+	 * 	| blocks != null
+	 * @throws IllegalArgumentException if bottomRight coordinates are smaller than the ORIGIN coordinates
+	 *  | !(bottomRight.getX() >  Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY())
+	 * @throws IllegalArgumentException if the paddle center is smaller than the ORIGIN X coordinate or larger than the bottomRight X coordinate
+	 * 	| !(paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX())
+	 *
+	 * @post This object's balls equal the given balls
+	 * 	| getBalls() == balls
+	 * @post This object's blocks equal the given blocks
+	 * 	| getBlocks() == blocks
+	 * @post This object's bottomRight point equal to the given bottomRight point
+	 * 	| getBottomRight() == bottomRight
+	 * @post This object's paddle equal the given paddle
+	 * 	| getPaddle() == paddle
+	 */
 	public BreakoutState(BallState[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
+		if (balls == null) {
+			throw new IllegalArgumentException("balls_not_null");
+		}
+		if (blocks == null) {
+			throw new IllegalArgumentException("blocks_not_null");
+		}
+		if (!(bottomRight.getX() >  Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY())) {
+			throw new IllegalArgumentException("bottomRight_out_of_range");
+		}
+		if (!(paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX())) {
+			throw new IllegalArgumentException("paddle_center_out_of_range");
+		}
+
 		this.balls = balls;
 		this.blocks = blocks;
 		this.bottomRight = bottomRight;
 		this.paddle = paddle;
 	}
-	
-	public BallState[] getBalls() {
-		return balls;
-	}
 
-	public BlockState[] getBlocks() {
-		return blocks;
-	}
+	/**
+	 * Returns this instance's balls
+	 *
+	 * @creates | ballsResult
+	 * @post | ballsResult != null
+	 */
+	public BallState[] getBalls() { return balls.clone(); }
 
-	public PaddleState getPaddle() {
-		return paddle;
-	}
+	/**
+	 * Returns this instance's blocks
+	 *
+	 * @creates | blocksResult
+	 * @post | blocksResult != null
+	 */
+	public BlockState[] getBlocks() { return blocks.clone(); }
 
-	public Point getBottomRight() {
-		return bottomRight;
-	}
+	/**
+	 * Returns this instance's paddle
+	 *
+	 * @post | paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX()
+	 */
+	public PaddleState getPaddle() { return paddle; }
 
+	/**
+	 * Returns this instance's bottomRight point
+	 *
+	 * @post | bottomRight.getX() > Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY()
+	 */
+	public Point getBottomRight() { return bottomRight; }
+
+	/* Updates the BreakoutState according to one tick has passed. */
 	public void tick(int paddleDir) {
 		var balls = getBalls();
 		var newBalls = new ArrayList<BallState>();
@@ -105,6 +166,7 @@ public class BreakoutState {
 		this.balls = newBalls.toArray(new BallState[]{});
 	}
 
+	/* Moves the paddle according to the given size. */
 	private PaddleState movePaddle(int size) {
 		var paddle = getPaddle();
 		var newX = paddle.getCenter().getX();
@@ -122,14 +184,27 @@ public class BreakoutState {
 		return new PaddleState(newPoint, paddle.getSize());
 	}
 
+	/* Moves the paddle right. */
 	public void movePaddleRight() {
 		this.paddle = movePaddle(10);
 	}
 
+	/* Moves the paddle left. */
 	public void movePaddleLeft() {
 		this.paddle = movePaddle(-10);
 	}
 
+	/**
+	 * Returns if the player has won the game
+	 *
+	 * @post
+	 * 		The result is {@code true} if there is at least one ball left and
+	 * 		there are no blocks left.
+	 * 	  | result == (
+	 * 	  | 	getBalls().length > 0 &&
+	 * 	  |		getBlocks().length <= 0
+	 * 	  | )
+	 */
 	public boolean isWon() {
 		var balls = getBalls();
 		var blocks = getBlocks();
@@ -137,6 +212,15 @@ public class BreakoutState {
 		return balls.length > 0 && blocks.length <= 0;
 	}
 
+	/**
+	 * Returns if the player is dead
+	 *
+	 * @post
+	 * 		The result is {@code true} if there are no balls left in the game.
+	 *    | result == (
+	 *    | 	getBalls() <= 0
+	 *    | )
+	 */
 	public boolean isDead() {
 		var balls = getBalls();
 		return balls.length <= 0;
