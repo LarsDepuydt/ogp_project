@@ -14,8 +14,6 @@ public class BallState {
 	/**
 	 * @invar | center.getX() > 0 && center.getY() > 0
 	 * @invar | diameter > 0
-	 *
-	 * @representationObject
 	 */
 	private final Point center;
 	private final int diameter;

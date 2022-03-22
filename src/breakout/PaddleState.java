@@ -14,8 +14,6 @@ public class PaddleState {
     /**
      * @invar | center.getX() > 0 && center.getY() > 0
      * @invar | size.getX() > 0 && size.getY() > 0
-     *
-     * @representationObject
      */
     private final Point center;
     private final Vector size;

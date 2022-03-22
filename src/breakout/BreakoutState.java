@@ -15,6 +15,8 @@ public class BreakoutState {
 	 * @invar | blocks != null
 	 * @invar | bottomRight.getX() > Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY()
 	 * @invar | paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX()
+	 *
+	 * @representationObject
 	 */
 	private BallState[] balls;
 	private BlockState[] blocks;
@@ -75,34 +77,35 @@ public class BreakoutState {
 	/**
 	 * Returns this instance's balls
 	 *
-	 * @creates | ballsResult
-	 * @post | ballsResult != null
+	 * @creates | result
+	 * @post | result != null
 	 */
 	public BallState[] getBalls() { return balls.clone(); }
 
 	/**
 	 * Returns this instance's blocks
 	 *
-	 * @creates | blocksResult
-	 * @post | blocksResult != null
+	 * @creates | result
+	 * @post | result != null
 	 */
 	public BlockState[] getBlocks() { return blocks.clone(); }
 
 	/**
 	 * Returns this instance's paddle
 	 *
-	 * @post | paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX()
+	 * @post | result.getCenter().getX() > Point.ORIGIN.getX() || result.getCenter().getX() < getBottomRight().getX()
 	 */
 	public PaddleState getPaddle() { return paddle; }
 
 	/**
 	 * Returns this instance's bottomRight point
 	 *
-	 * @post | bottomRight.getX() > Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY()
+	 * @post | result.getX() > Point.ORIGIN.getX() && result.getY() > Point.ORIGIN.getY()
 	 */
 	public Point getBottomRight() { return bottomRight; }
 
-	public Vector checkForCollision(Point pointTL, Point pointBR, BallState ball) {
+	/* Checks if the ball has a collision with the given object. If so it returns the new velocity vector, otherwise a null vector. */
+	private Vector checkForCollision(Point pointTL, Point pointBR, BallState ball) {
 		var ballCenterX = ball.getCenter().getX();
 		var ballCenterY = ball.getCenter().getY();
 		var diameter = ball.getDiameter();
@@ -205,8 +208,9 @@ public class BreakoutState {
 				System.out.println(newVelocity);
 			}
 
-
+			/* Move the ball one step forward according to their current velocity. */
 			var newCenter = new Point(ball.getCenter().plus(newVelocity).getX(), ball.getCenter().plus(newVelocity).getY());
+
 			var newBall = new BallState(newCenter, ball.getDiameter(), newVelocity);
 
 			if (addBall) { newBalls.add(newBall); }
@@ -266,7 +270,7 @@ public class BreakoutState {
 	 * @post
 	 * 		The result is {@code true} if there are no balls left in the game.
 	 *    | result == (
-	 *    | 	getBalls() <= 0
+	 *    | 	getBalls().length <= 0
 	 *    | )
 	 */
 	public boolean isDead() {
