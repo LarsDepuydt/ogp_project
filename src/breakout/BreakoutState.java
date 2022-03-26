@@ -1,6 +1,7 @@
 package breakout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Each instance of this class stores the state of the game, these are all the balls, the blocks, the bottomRight point
@@ -35,14 +36,12 @@ public class BreakoutState {
 	 * @throws IllegalArgumentException if paddle is equal to null
 	 * 	| paddle != null
 	 * @throws IllegalArgumentException if bottomRight coordinates are smaller than the ORIGIN coordinates
-	 *  | !(bottomRight.getX() >  Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY())
-	 * @throws IllegalArgumentException if the paddle center is smaller than the ORIGIN X coordinate or larger than the bottomRight X coordinate
-	 * 	| !(paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX())
+	 *  | !(Point.ORIGIN.isUpAndLeftFrom(bottomRight))
 	 *
 	 * @post This object's balls equal the given balls
-	 * 	| getBalls() == balls
+	 * 	| Arrays.equals(getBalls(), balls)
 	 * @post This object's blocks equal the given blocks
-	 * 	| getBlocks() == blocks
+	 * 	| Arrays.equals(getBlocks(), blocks)
 	 * @post This object's bottomRight point equal to the given bottomRight point
 	 * 	| getBottomRight() == bottomRight
 	 * @post This object's paddle equal the given paddle
@@ -61,11 +60,8 @@ public class BreakoutState {
 		if (paddle == null) {
 			throw new IllegalArgumentException("paddle_not_null");
 		}
-		if (!(bottomRight.getX() >  Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY())) {
+		if (!(Point.ORIGIN.isUpAndLeftFrom(bottomRight))) {
 			throw new IllegalArgumentException("bottomRight_out_of_range");
-		}
-		if (!(paddle.getCenter().getX() > Point.ORIGIN.getX() || paddle.getCenter().getX() < bottomRight.getX())) {
-			throw new IllegalArgumentException("paddle_center_out_of_range");
 		}
 
 		this.balls = balls;
@@ -123,7 +119,7 @@ public class BreakoutState {
 
 		// top or bottom side of object
 		if (ballCenterY + diameter >= blockTopY && ballCenterY - diameter <= blockBottomY	// conditions on the Y-axis
-				&& ballCenterX >= blockLeftX && ballCenterX <= blockRightX ) {				// conditions on the X-axis
+				&& ballCenterX > blockLeftX && ballCenterX < blockRightX ) {				// conditions on the X-axis
 			// top side of object
 			if (ballVelocityY > 0) {
 				newVelocity = ball.getVelocity().mirrorOver(Vector.UP);
@@ -201,11 +197,7 @@ public class BreakoutState {
 
 			var paddleHit = checkForCollision(center.minus(size), center.plus(size), new BallState(ball.getCenter(), ball.getDiameter(), ball.getVelocity().plus(ball.getVelocity().scaledDiv(5).scaled(paddleDir))));
 			if (paddleHit.getSquareLength() != 0) {
-				System.out.println("hit paddle");
-				System.out.println(paddleDir);
-				System.out.println(ball.getVelocity());
 				newVelocity = paddleHit;
-				System.out.println(newVelocity);
 			}
 
 			/* Move the ball one step forward according to their current velocity. */

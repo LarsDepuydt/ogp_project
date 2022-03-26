@@ -4,16 +4,16 @@ package breakout;
  * Each instance of this class represents a ball with a center point, a diameter of type integer and a velocity vector.
  * 
  * @immutable
- * @invar This object's X and Y coordinates of center must be greater than 0
- * 	| getCenter().getX() > 0 && getCenter().getY() > 0
- * @invar This object's diameter must be greater than 0
- * 	| getDiameter() > 0
+ * @invar This object's X and Y coordinates of center must be greater than or equal to ORIGIN
+ * 	| Point.ORIGIN.isUpAndLeftFrom(getCenter())
+ * @invar This object's diameter must be greater than or equal to 0
+ * 	| getDiameter() >= 0
  */
 public class BallState {
 	
 	/**
-	 * @invar | center.getX() > 0 && center.getY() > 0
-	 * @invar | diameter > 0
+	 * @invar | Point.ORIGIN.isUpAndLeftFrom(center)
+	 * @invar | diameter >= 0
 	 */
 	private final Point center;
 	private final int diameter;
@@ -22,10 +22,10 @@ public class BallState {
 	/**
 	 * Initializes this instance so that it represents a ball with a given center point, diameter and velocity.
 	 * 
-	 * @pre Argument {@code center.getX()} and {@code center.getY()} are greater than {@code 0} 
-	 * 	| center.getX() > 0 && center.getY() > 0
-	 * @pre Argument {@code diameter} is greater than {@code 0}
-	 * 	| diameter > 0
+	 * @pre Argument {@code center} X and Y coordinates are greater than or equal to {@code Point.ORIGIN} 
+	 * 	| Point.ORIGIN.isUpAndLeftFrom(center)
+	 * @pre Argument {@code diameter} is greater than or equal to or equal to {@code 0}
+	 * 	| diameter >= 0
 	 * @pre Argument {@code velocity} is not {@code null}
 	 * 	| velocity != null
 	 * 
