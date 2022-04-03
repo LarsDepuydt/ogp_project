@@ -10,19 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BreakoutStateTest {
 
-    BallState ball1;
-    BallState ball2;
-    BallState ball3;
-    BallState[] balls1;
-    BallState[] balls2;
-    BallState[] collision_ballsTop;
-    BallState[] collision_ballsBottom;
-    BallState[] collision_ballsLeft;
-    BallState[] collision_ballsRight;
-    BallState[] field_ballsRight;
-    BallState[] field_ballsLeft;
-    BallState[] field_ballsTop;
-    BallState[] field_ballsBottom;
+    Ball ball1;
+    Ball ball2;
+    Ball ball3;
+    Ball[] balls1;
+    Ball[] balls2;
+    Ball[] collision_ballsTop;
+    Ball[] collision_ballsBottom;
+    Ball[] collision_ballsLeft;
+    Ball[] collision_ballsRight;
+    Ball[] field_ballsRight;
+    Ball[] field_ballsLeft;
+    Ball[] field_ballsTop;
+    Ball[] field_ballsBottom;
 
 
     BlockState block1;
@@ -60,13 +60,13 @@ public class BreakoutStateTest {
     @BeforeEach
     void setUp() {
         // test getters and setters
-        ball1 = new BallState(new Point(10, 20), 20, new Vector(5, -7) );
-        ball2 = new BallState(new Point(0, 0), 0, new Vector(0, 0) );
-        ball3 = new BallState(new Point(20, 5), 35, new Vector(-3, 9) );
+        ball1 = new Ball(new Point(10, 20), 20, new Vector(5, -7) );
+        ball2 = new Ball(new Point(0, 0), 0, new Vector(0, 0) );
+        ball3 = new Ball(new Point(20, 5), 35, new Vector(-3, 9) );
 
-        var ballsArray = new ArrayList<BallState>();
+        var ballsArray = new ArrayList<Ball>();
         ballsArray.add(ball1);
-        balls1 = ballsArray.toArray(new BallState[]{});
+        balls1 = ballsArray.toArray(new Ball[]{});
 
 
         block1 = new BlockState(new Point(1,2), new Point(5,7));
@@ -86,7 +86,7 @@ public class BreakoutStateTest {
 
         ballsArray.add(ball2);
         ballsArray.add(ball3);
-        balls2 = ballsArray.toArray(new BallState[]{});
+        balls2 = ballsArray.toArray(new Ball[]{});
 
         blocksArray.add(block2);
         blocksArray.add(block3);
@@ -99,21 +99,21 @@ public class BreakoutStateTest {
         b2 = new BreakoutState(balls2, blocks2, bottomRight2, paddle2);
 
         // test collision
-        var collisionBallsArrayTop = new ArrayList<BallState>();
-        collisionBallsArrayTop.add(new BallState(new Point(2, 2), 1, new Vector(1, 5)));
-        collision_ballsTop = collisionBallsArrayTop.toArray(new BallState[]{});
+        var collisionBallsArrayTop = new ArrayList<Ball>();
+        collisionBallsArrayTop.add(new Ball(new Point(2, 2), 1, new Vector(1, 5)));
+        collision_ballsTop = collisionBallsArrayTop.toArray(new Ball[]{});
 
-        var collisionBallsArrayBottom = new ArrayList<BallState>();
-        collisionBallsArrayBottom.add(new BallState(new Point(2, 20), 1, new Vector(1, -5)));
-        collision_ballsBottom = collisionBallsArrayBottom.toArray(new BallState[]{});
+        var collisionBallsArrayBottom = new ArrayList<Ball>();
+        collisionBallsArrayBottom.add(new Ball(new Point(2, 20), 1, new Vector(1, -5)));
+        collision_ballsBottom = collisionBallsArrayBottom.toArray(new Ball[]{});
 
-        var collisionBallsArrayLeft = new ArrayList<BallState>();
-        collisionBallsArrayLeft.add(new BallState(new Point(2, 2), 1, new Vector(5, 1)));
-        collision_ballsLeft = collisionBallsArrayLeft.toArray(new BallState[]{});
+        var collisionBallsArrayLeft = new ArrayList<Ball>();
+        collisionBallsArrayLeft.add(new Ball(new Point(2, 2), 1, new Vector(5, 1)));
+        collision_ballsLeft = collisionBallsArrayLeft.toArray(new Ball[]{});
 
-        var collisionBallsArrayRight = new ArrayList<BallState>();
-        collisionBallsArrayRight.add(new BallState(new Point(20, 2), 1, new Vector(-5, 1)));
-        collision_ballsRight = collisionBallsArrayRight.toArray(new BallState[]{});
+        var collisionBallsArrayRight = new ArrayList<Ball>();
+        collisionBallsArrayRight.add(new Ball(new Point(20, 2), 1, new Vector(-5, 1)));
+        collision_ballsRight = collisionBallsArrayRight.toArray(new Ball[]{});
 
 
         var collisionBlocksArrayTop = new ArrayList<BlockState>();
@@ -139,21 +139,21 @@ public class BreakoutStateTest {
         collision_breakoutRight = new BreakoutState(collision_ballsRight, collision_blocksRight, bottomRight1, paddle2);
 
         // left, right, top and bottom side of playing field
-        var FieldBallsArrayRight = new ArrayList<BallState>();
-        FieldBallsArrayRight.add(new BallState(new Point(90, 20), 1, new Vector(5, 5)));
-        field_ballsRight = FieldBallsArrayRight.toArray(new BallState[]{});
+        var FieldBallsArrayRight = new ArrayList<Ball>();
+        FieldBallsArrayRight.add(new Ball(new Point(90, 20), 1, new Vector(5, 5)));
+        field_ballsRight = FieldBallsArrayRight.toArray(new Ball[]{});
 
-        var FieldBallsArrayLeft = new ArrayList<BallState>();
-        FieldBallsArrayLeft.add(new BallState(new Point(10, 20), 1, new Vector(-5, 5)));
-        field_ballsLeft = FieldBallsArrayLeft.toArray(new BallState[]{});
+        var FieldBallsArrayLeft = new ArrayList<Ball>();
+        FieldBallsArrayLeft.add(new Ball(new Point(10, 20), 1, new Vector(-5, 5)));
+        field_ballsLeft = FieldBallsArrayLeft.toArray(new Ball[]{});
 
-        var FieldBallsArrayTop = new ArrayList<BallState>();
-        FieldBallsArrayTop.add(new BallState(new Point(20, 10), 1, new Vector(1, -5)));
-        field_ballsTop = FieldBallsArrayTop.toArray(new BallState[]{});
+        var FieldBallsArrayTop = new ArrayList<Ball>();
+        FieldBallsArrayTop.add(new Ball(new Point(20, 10), 1, new Vector(1, -5)));
+        field_ballsTop = FieldBallsArrayTop.toArray(new Ball[]{});
 
-        var FieldBallsArrayBottom = new ArrayList<BallState>();
-        FieldBallsArrayBottom.add(new BallState(new Point(10, 190), 1, new Vector(1, 5)));
-        field_ballsBottom = FieldBallsArrayBottom.toArray(new BallState[]{});
+        var FieldBallsArrayBottom = new ArrayList<Ball>();
+        FieldBallsArrayBottom.add(new Ball(new Point(10, 190), 1, new Vector(1, 5)));
+        field_ballsBottom = FieldBallsArrayBottom.toArray(new Ball[]{});
 
 
         field_breakoutRight = new BreakoutState(field_ballsRight, collision_blocksBottom, bottomRight1, paddle2);
@@ -161,10 +161,10 @@ public class BreakoutStateTest {
         field_breakoutTop = new BreakoutState(field_ballsTop, collision_blocksBottom, bottomRight1, paddle2);
         field_breakoutBottom = new BreakoutState(field_ballsBottom, collision_blocksBottom, bottomRight1, paddle2);
 
-        var emptyArray = new ArrayList<BallState>();
+        var emptyArray = new ArrayList<Ball>();
 
         breakout_isWon = new BreakoutState(field_ballsBottom, emptyArray.toArray(new BlockState[]{}), bottomRight1, paddle1);
-        breakout_isDead = new BreakoutState(emptyArray.toArray(new BallState[]{}), collision_blocksBottom, bottomRight1, paddle1);
+        breakout_isDead = new BreakoutState(emptyArray.toArray(new Ball[]{}), collision_blocksBottom, bottomRight1, paddle1);
 
         illigalBottomRight = new Point(-100, -100);
     }

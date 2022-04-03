@@ -1,39 +1,46 @@
 package breakout;
 
 /**
- * Each instance of this class represents a paddle with a center point and a size vector
- * 
+ * Represents the state of a paddle in the breakout game.
+ *
  * @immutable
- * @invar This object's center X and Y coordinates are greater than or equal to ORIGIN
- * 	| Point.ORIGIN.isUpAndLeftFrom(getCenter())
+ * @invar | getCenter() != null
  */
 public class PaddleState {
-
-    /**
-     * @invar | Point.ORIGIN.isUpAndLeftFrom(center)
-     */
-    private final Point center;
-    private final Vector size;
-    
-    /**
-     * @pre Argument {@code center} X and Y coordinates are greater than or equal to {@code Point.ORIGIN}
-     * 	| Point.ORIGIN.isUpAndLeftFrom(center)
-     * 
-     * @post | getCenter() == center
-     * @post | getSize() == size
+	
+	public static final int HEIGHT = 500;
+	public static final int WIDTH = 3000;
+	/**
+	 * @invar | center != null
 	 */
-    PaddleState(Point center, Vector size) {
-        this.center = center;
-        this.size = size;
-    }
+	private final Point center;
 
-    /* Returns this instance's center point */
-    public Point getCenter() {
-        return center;
-    }
+	/**
+	 * Construct a paddle located around a given center in the field.
+	 * @pre | center != null
+	 * @post | getCenter().equals(center)
+	 */
+	public PaddleState(Point center) {
+		this.center = center;
+	}
+	
+	/**
+	 * Return the center point of this paddle.
+	 */
+	public Point getCenter() {
+		return center;
+	}
 
-    /* Returns this instance's size vector */
-    public Vector getSize() {
-        return size;
-    }
+	/**
+	 * Return the rectangle occupied by this paddle in the field.
+	 * 
+	 * @post | result != null
+	 * @post | result.getTopLeft().equals(getCenter().plus(new Vector(-WIDTH/2,-HEIGHT/2)))
+	 * @post | result.getBottomRight().equals(getCenter().plus(new Vector(WIDTH/2,HEIGHT/2)))
+	 */
+	public Rect getLocation() {
+		Vector halfDiag = new Vector(-WIDTH/2,-HEIGHT/2);
+		return new Rect(center.plus(halfDiag), center.plus(halfDiag.scaled(-1)));
+	}
+
 }
