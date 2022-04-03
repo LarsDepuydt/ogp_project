@@ -1,5 +1,7 @@
 package breakout;
 
+import java.awt.Color;
+
 /**
  * Represents the state of a paddle in the breakout game.
  *
@@ -14,13 +16,14 @@ public class PaddleState {
 	 * @invar | center != null
 	 */
 	private final Point center;
+	private Color color;
 
 	/**
 	 * Construct a paddle located around a given center in the field.
 	 * @pre | center != null
 	 * @post | getCenter().equals(center)
 	 */
-	public PaddleState(Point center) {
+	public PaddleState(Point center) { // TODO: color fixen
 		this.center = center;
 	}
 	
@@ -43,4 +46,7 @@ public class PaddleState {
 		return new Rect(center.plus(halfDiag), center.plus(halfDiag.scaled(-1)));
 	}
 
+	public Color getColor() {
+		return color;
+	}
 }

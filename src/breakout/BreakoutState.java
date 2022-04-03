@@ -16,7 +16,7 @@ import java.util.Arrays;
  * @invar | getField().contains(getPaddle().getLocation())
  */
 public class BreakoutState {
-
+	public static final int MAX_ELAPSED_TIME = 1000;
 	private static final Vector PADDLE_VEL = new Vector(10,0);
 	/**
 	 * @invar | bottomRight != null
@@ -248,7 +248,7 @@ public class BreakoutState {
 	 * 
 	 * @mutates this
 	 */
-	public void movePaddleRight() {
+	public void movePaddleRight(int elapsedTime) {
 		Point ncenter = paddle.getCenter().plus(PADDLE_VEL);
 		paddle = new PaddleState(getField().minusMargin(PaddleState.WIDTH/2,0).constrain(ncenter));
 	}
@@ -258,7 +258,7 @@ public class BreakoutState {
 	 * 
 	 * @mutates this
 	 */
-	public void movePaddleLeft() {
+	public void movePaddleLeft(int elapsedTime) {
 		Point ncenter = paddle.getCenter().plus(PADDLE_VEL.scaled(-1));
 		paddle = new PaddleState(getField().minusMargin(PaddleState.WIDTH/2,0).constrain(ncenter));
 	}

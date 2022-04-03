@@ -1,5 +1,7 @@
 package breakout;
 
+import java.awt.Color;
+
 /**
  * Represents the state of a ball in the breakout game.
  * 
@@ -11,6 +13,7 @@ public class Ball {
 	
 	private final Circle location;
 	private final Vector velocity;
+	private Color color;
 	
 	/**
 	 * Construct a new ball at a given `location`, with a given `velocity`.
@@ -23,6 +26,7 @@ public class Ball {
 	public Ball(Circle location, Vector velocity) {
 		this.location = location;
 		this.velocity = velocity;
+		this.color = Color.red;
 	}
 	
 	/**
@@ -63,5 +67,13 @@ public class Ball {
 	 */
 	public Point getCenter() {
 		return getLocation().getCenter();
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color newColor) {
+		color = newColor;
 	}
 }

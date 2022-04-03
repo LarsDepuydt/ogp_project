@@ -105,7 +105,7 @@ class SubmissionTestSuite {
 
 	@Test
 	void testTickNormal() {
-		state1.tick(0);
+		state1.tick(0, 1); // TODO: elapsedTime
 		assertEquals(1,state1.getBalls().length);
 		Ball b = state1.getBalls()[0];
 		assertEquals(origBallVelocity,b.getVelocity());
@@ -114,7 +114,7 @@ class SubmissionTestSuite {
 	@Test
 	void testTickBounceBlock() {
 		for(int i = 0; i < 300; ++i) {
-			stateBeforeBounceBlock.tick(1);
+			stateBeforeBounceBlock.tick(1,1); // TODO: elapsedTime
 		}
 		assertEquals(1,stateBeforeBounceBlock.getBalls().length);
 		assertEquals(2,stateBeforeBounceBlock.getBlocks().length);
