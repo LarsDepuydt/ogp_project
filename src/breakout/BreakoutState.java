@@ -16,7 +16,7 @@ import java.util.Arrays;
  * @invar | getField().contains(getPaddle().getLocation())
  */
 public class BreakoutState {
-	public static final int MAX_ELAPSED_TIME = 1000;
+	public static final int MAX_ELAPSED_TIME = 1000; // TODO: kheb maar iets gepakt, echt geen idee wat ze allemaal bedoelen met die elapsed time
 	private static final Vector PADDLE_VEL = new Vector(10,0);
 	/**
 	 * @invar | bottomRight != null
@@ -137,7 +137,7 @@ public class BreakoutState {
 		for( Rect wall : walls) {
 			Vector nspeed = ball.bounceOn(wall);
 			if( nspeed != null ) {
-				return new Ball(loc,nspeed);
+				return new NormalBall(loc,nspeed);
 			}
 		}
 		return ball;
@@ -150,7 +150,7 @@ public class BreakoutState {
 
 	private Ball clampBall(Ball b) {
 		Circle loc = getFieldInternal().constrain(b.getLocation());
-		return new Ball(loc,b.getVelocity());
+		return new NormalBall(loc,b.getVelocity());
 	}
 	
 	private Ball collideBallBlocks(Ball ball) {
@@ -158,7 +158,7 @@ public class BreakoutState {
 			Vector nspeed = ball.bounceOn(block.getLocation());
 			if(nspeed != null) {
 				removeBlock(block);
-				return new Ball(ball.getLocation(), nspeed);
+				return new NormalBall(ball.getLocation(), nspeed);
 			}
 		}
 		return ball;
@@ -169,7 +169,7 @@ public class BreakoutState {
 		if(nspeed != null) {
 			Point ncenter = ball.getLocation().getCenter().plus(nspeed);
 			nspeed = nspeed.plus(paddleVel.scaledDiv(5));
-			return new Ball(ball.getLocation().withCenter(ncenter), nspeed);
+			return new NormalBall(ball.getLocation().withCenter(ncenter), nspeed);
 		}
 		return ball;
 	}
@@ -239,7 +239,7 @@ public class BreakoutState {
 	private void stepBalls() {
 		for(int i = 0; i < balls.length; ++i) {
 			Point newcenter = balls[i].getLocation().getCenter().plus(balls[i].getVelocity());
-			balls[i] = new Ball(balls[i].getLocation().withCenter(newcenter),balls[i].getVelocity());
+			balls[i] = new NormalBall(balls[i].getLocation().withCenter(newcenter),balls[i].getVelocity());
 		}
 	}
 

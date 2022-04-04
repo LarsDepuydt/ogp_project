@@ -12,13 +12,13 @@ public class BreakoutFacade {
 	public Ball createNormalBall(Point center, int diameter, Vector initBallVelocity) {
 		// TODO
 		var circle = new Circle(center, diameter);
-		return new Ball(circle, initBallVelocity);
+		return new NormalBall(circle, initBallVelocity);
 	}
 
 	public Ball createSuperchargedBall(Point center, int diameter, Vector initBallVelocity, int lifetime) {
 		// TODO
 		var circle = new Circle(center, diameter);
-		return new Ball(circle, initBallVelocity);	// TODO: nog niks speciaal aan nu
+		return new SuperchargedBall(circle, initBallVelocity);
 	}
 
 	public BreakoutState createBreakoutState(Ball[] balls, BlockState[] blocks, Point topRight,
@@ -30,25 +30,25 @@ public class BreakoutFacade {
 	public BlockState createNormalBlockState(Point topLeft, Point bottomRight) {
 		// TODO
 		var rect = new Rect(topLeft, bottomRight);
-		return new BlockState(rect);
+		return new NormalBlockState(rect);
 	}
 
 	public BlockState createSturdyBlockState(Point topLeft, Point bottomRight, int i) {
 		// TODO
 		var rect = new Rect(topLeft, bottomRight);
-		return new BlockState(rect);	// TODO: nog niks speciaal aan nu
+		return new SturdyBlockState(rect);
 	}
 
 	public BlockState createReplicatorBlockState(Point topLeft, Point bottomRight) {
 		// TODO
 		var rect = new Rect(topLeft, bottomRight);
-		return new BlockState(rect);	// TODO: nog niks speciaal aan nu
+		return new ReplicatorBlockState(rect);
 	}
 
 	public BlockState createPowerupBallBlockState(Point topLeft, Point bottomRight) {
 		// TODO
 		var rect = new Rect(topLeft, bottomRight);
-		return new BlockState(rect); 	// TODO: nog niks speciaal aan nu
+		return new PowerupBallBlockState(rect);
 	}
 
 	public Color getColor(PaddleState paddle) {
