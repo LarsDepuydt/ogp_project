@@ -3,8 +3,8 @@ package breakout;
 import java.awt.*;
 
 public class NormalBall extends Ball {
-    private final Circle location;
-    private final Vector velocity;
+    private Circle location;
+    private Vector velocity;
     private static final Color color = Color.white;
 
     /**
@@ -62,5 +62,17 @@ public class NormalBall extends Ball {
 
     public Color getColor() {
         return color;
+    }
+
+    public void moveForward(int elapsedTime) {
+        location = new Circle(location.getCenter().plus(velocity.scaled(elapsedTime)), location.getDiameter());
+    }
+
+    public void setCenter(Circle location) {
+        this.location = location;
+    }
+
+    public void setVelocity(Vector velocity) {
+        this.velocity = velocity;
     }
 }

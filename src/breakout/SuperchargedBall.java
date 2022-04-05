@@ -5,8 +5,8 @@ import java.awt.*;
 public class SuperchargedBall extends Ball {
     // TODO: just a copy of normalBall
 
-    private final Circle location;
-    private final Vector velocity;
+    private Circle location;
+    private Vector velocity;
     private static final Color color = Color.MAGENTA;
 
     /**
@@ -64,5 +64,17 @@ public class SuperchargedBall extends Ball {
 
     public Color getColor() {
         return color;
+    }
+
+    public void moveForward(int elapsedTime) {
+        location = new Circle(location.getCenter().plus(velocity.scaled(elapsedTime)), location.getDiameter());
+    }
+
+    public void setCenter(Circle location) {
+        this.location = location;
+    }
+
+    public void setVelocity(Vector velocity) {
+        this.velocity = velocity;
     }
 }

@@ -20,5 +20,11 @@ public abstract class Ball {
 	public abstract Point getCenter();
 
 	public abstract Color getColor();
+
+	public abstract void moveForward(int elapsedTime);
+
+	public abstract void setCenter(Circle location);
+
+	public abstract void setVelocity(Vector velocity);
 }
 
