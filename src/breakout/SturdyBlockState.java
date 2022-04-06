@@ -7,6 +7,7 @@ public class SturdyBlockState extends BlockState {
     private final Rect location;
     private final Color color;
     private final int health;
+    private final boolean superchargedBall = false;
 
     public SturdyBlockState(Rect location, int health) {
         this.location = location;
@@ -25,5 +26,9 @@ public class SturdyBlockState extends BlockState {
 
     public int getHealth() {
         return health;
+    }
+
+    public boolean getMakeSupercharged() {
+        return superchargedBall;
     }
 }

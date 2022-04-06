@@ -26,5 +26,7 @@ public abstract class Ball {
 	public abstract void setCenter(Circle location);
 
 	public abstract void setVelocity(Vector velocity);
+
+	public abstract int getTimeLeft();
 }
 

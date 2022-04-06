@@ -6,6 +6,7 @@ public class NormalBall extends Ball {
     private Circle location;
     private Vector velocity;
     private static final Color color = Color.white;
+    private static int timeLeft = 0;
 
     /**
      * Construct a new ball at a given `location`, with a given `velocity`.
@@ -74,5 +75,9 @@ public class NormalBall extends Ball {
 
     public void setVelocity(Vector velocity) {
         this.velocity = velocity;
+    }
+
+    public int getTimeLeft() {
+        return timeLeft;
     }
 }

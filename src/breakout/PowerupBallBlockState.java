@@ -8,6 +8,7 @@ public class PowerupBallBlockState extends BlockState {
     private final Rect location;
     private static final Color color = Color.magenta;
     private final int health = 1;
+    private final boolean superchargedBall = true;
 
     public PowerupBallBlockState(Rect location) {
         this.location = location;
@@ -19,5 +20,9 @@ public class PowerupBallBlockState extends BlockState {
 
     public int getHealth() {
         return health;
+    }
+
+    public boolean getMakeSupercharged() {
+        return superchargedBall;
     }
 }

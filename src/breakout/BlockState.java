@@ -18,4 +18,7 @@ public abstract class BlockState {
 	public abstract Color getColor();
 
 	public abstract int getHealth();
+
+
+	public abstract boolean getMakeSupercharged();
 }

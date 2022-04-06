@@ -152,14 +152,22 @@ public class BreakoutState {
 		ball.setCenter(loc);
 	}
 	
-	private void collideBallBlocks(Ball ball) {
+	private Ball collideBallBlocks(Ball ball) {
 		for(BlockState block : blocks) {
 			Vector nspeed = ball.bounceOn(block.getLocation());
 			if(nspeed != null) {
 				removeBlock(block);
-				ball.setVelocity(nspeed);
+				if (ball.getTimeLeft() <= 0 || block.getHealth() > 1) {
+					ball.setVelocity(nspeed);
+				}
+
+				if (block.getMakeSupercharged()) {
+					ball = new SuperchargedBall(ball.getLocation(), ball.getVelocity());
+				}
 			}
 		}
+
+		return ball;
 	}
 
 	private void collideBallPaddle(Ball ball, Vector paddleVel) {
@@ -221,7 +229,7 @@ public class BreakoutState {
 	private void bounceBallsOnBlocks() {
 		for(int i = 0; i < balls.length; ++i) {
 			if(balls[i] != null) {
-				collideBallBlocks(balls[i]);
+				balls[i] = collideBallBlocks(balls[i]);
 			}
 		}
 	}
@@ -241,6 +249,9 @@ public class BreakoutState {
 	private void stepBalls(int elapsedTime) {
 		for(int i = 0; i < balls.length; ++i) {
 			balls[i].moveForward(elapsedTime);
+			if (balls[i].getTimeLeft() < 0) {
+				balls[i] = new NormalBall(balls[i].getLocation(), balls[i].getVelocity());
+			}
 		}
 	}
 

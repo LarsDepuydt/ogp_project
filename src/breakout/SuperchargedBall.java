@@ -3,11 +3,12 @@ package breakout;
 import java.awt.*;
 
 public class SuperchargedBall extends Ball {
-    // TODO: just a copy of normalBall
 
+    private static final int INITIAL_TIME_SUPERCHARGEDBALL = 10 * 1000;
     private Circle location;
     private Vector velocity;
     private static final Color color = Color.MAGENTA;
+    private int timeLeft;
 
     /**
      * Construct a new ball at a given `location`, with a given `velocity`.
@@ -20,6 +21,7 @@ public class SuperchargedBall extends Ball {
     public SuperchargedBall(Circle location, Vector velocity) {
         this.location = location;
         this.velocity = velocity;
+        this.timeLeft = INITIAL_TIME_SUPERCHARGEDBALL;
     }
 
     /**
@@ -68,6 +70,7 @@ public class SuperchargedBall extends Ball {
 
     public void moveForward(int elapsedTime) {
         location = new Circle(location.getCenter().plus(velocity.scaled(elapsedTime)), location.getDiameter());
+        timeLeft = timeLeft - elapsedTime;
     }
 
     public void setCenter(Circle location) {
@@ -76,5 +79,9 @@ public class SuperchargedBall extends Ball {
 
     public void setVelocity(Vector velocity) {
         this.velocity = velocity;
+    }
+
+    public int getTimeLeft() {
+       return timeLeft;
     }
 }
