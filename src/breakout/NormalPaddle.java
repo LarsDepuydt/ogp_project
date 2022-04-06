@@ -8,6 +8,7 @@ public class NormalPaddle extends PaddleState {
      */
     private final Point center;
     private Color color = Color.green;
+    private static final int replicateCount = 0;
 
     /**
      * Construct a paddle located around a given center in the field.
@@ -39,5 +40,9 @@ public class NormalPaddle extends PaddleState {
 
     public Color getColor() {
         return color;
+    }
+
+    public int getReplicateCount() {
+        return replicateCount;
     }
 }

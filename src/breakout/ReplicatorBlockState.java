@@ -6,9 +6,10 @@ public class ReplicatorBlockState extends BlockState {
     // TODO: just a copy of normalBlockState
 
     private final Rect location;
-    private static final Color color = Color.magenta;
+    private static final Color color = Color.gray;
     private final int health = 1;
     private final boolean superchargedBall = false;
+    private final boolean replicatorPaddle = true;
 
     public ReplicatorBlockState(Rect location) {
         this.location = location;
@@ -24,5 +25,9 @@ public class ReplicatorBlockState extends BlockState {
 
     public boolean getMakeSupercharged() {
         return superchargedBall;
+    }
+
+    public boolean getMakeReplicatorPaddle() {
+        return replicatorPaddle;
     }
 }

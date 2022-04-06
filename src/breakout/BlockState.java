@@ -19,6 +19,7 @@ public abstract class BlockState {
 
 	public abstract int getHealth();
 
-
 	public abstract boolean getMakeSupercharged();
+
+	public abstract boolean getMakeReplicatorPaddle();
 }

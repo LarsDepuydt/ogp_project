@@ -7,15 +7,23 @@ public class ReplicatorPaddle extends PaddleState {
      * @invar | center != null
      */
     private final Point center;
-    private Color color = Color.cyan;
+    private final Color color;
+    private final int replicateCount;
 
     /**
      * Construct a paddle located around a given center in the field.
      * @pre | center != null
      * @post | getCenter().equals(center)
      */
-    public ReplicatorPaddle(Point center) { // TODO: color fixen
+    public ReplicatorPaddle(Point center, int replicateCount) {
         this.center = center;
+        this.replicateCount = replicateCount;
+
+        switch (replicateCount) {
+            case 2: this.color = Color.gray; break;
+            case 1: this.color = Color.lightGray; break;
+            default: this.color = Color.darkGray;
+        }
     }
 
     /**
@@ -39,5 +47,9 @@ public class ReplicatorPaddle extends PaddleState {
 
     public Color getColor() {
         return color;
+    }
+
+    public int getReplicateCount() {
+        return replicateCount;
     }
 }

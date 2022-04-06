@@ -109,7 +109,7 @@ public class BreakoutState {
 		return paddle;
 	}
 
-	/**
+	/**Arrays
 	 * Return the point representing the bottom right corner of this BreakoutState.
 	 * The top-left corner is always at Coordinate(0,0). 
 	 */
@@ -164,10 +164,42 @@ public class BreakoutState {
 				if (block.getMakeSupercharged()) {
 					ball = new SuperchargedBall(ball.getLocation(), ball.getVelocity());
 				}
+
+				if (block.getMakeReplicatorPaddle()) {
+					paddle = new ReplicatorPaddle(paddle.getCenter(), 3);
+				}
 			}
 		}
 
 		return ball;
+	}
+
+	private void addReplicationBalls(Ball ball) {
+		var newBalls = new ArrayList<Ball>();
+		for (var ballLoop : balls) {
+			newBalls.add(ballLoop);
+		}
+
+		var replicateCount = paddle.getReplicateCount();
+		if (replicateCount >= 3) {
+			newBalls.add(new NormalBall(ball.getLocation(), ball.getVelocity().plus(new Vector(2, -2))));
+		}
+		if (replicateCount >= 2) {
+			newBalls.add(new NormalBall(ball.getLocation(), ball.getVelocity().plus(new Vector(-2, 2))));
+		}
+		if (replicateCount >= 1) {
+			newBalls.add(new NormalBall(ball.getLocation(), ball.getVelocity().plus(new Vector(2, 2))));
+		}
+		this.balls = newBalls.toArray(new Ball[]{});
+	}
+
+	private void changeReplicationCount() {
+		int newReplicateCount = paddle.getReplicateCount() - 1;
+		if (newReplicateCount > 0) {
+			paddle = new ReplicatorPaddle(paddle.getCenter(), newReplicateCount);
+		} else {
+			paddle = new NormalPaddle(paddle.getCenter());
+		}
 	}
 
 	private void collideBallPaddle(Ball ball, Vector paddleVel) {
@@ -178,6 +210,11 @@ public class BreakoutState {
 
 			ball.setCenter(ball.getLocation().withCenter(ncenter));
 			ball.setVelocity(nspeed);
+
+			if (paddle.getReplicateCount() > 0) {
+				addReplicationBalls(ball);
+				changeReplicationCount();
+			}
 		}
 	}
 
@@ -262,7 +299,12 @@ public class BreakoutState {
 	 */
 	public void movePaddleRight(int elapsedTime) {
 		Point ncenter = paddle.getCenter().plus(PADDLE_VEL.scaled(elapsedTime));
-		paddle = new NormalPaddle(getField().minusMargin(PaddleState.WIDTH/2,0).constrain(ncenter));
+
+		if (paddle.getReplicateCount() > 0) {
+			paddle = new ReplicatorPaddle(getField().minusMargin(PaddleState.WIDTH / 2, 0).constrain(ncenter), paddle.getReplicateCount());
+		} else {
+			paddle = new NormalPaddle(getField().minusMargin(PaddleState.WIDTH / 2, 0).constrain(ncenter));
+		}
 	}
 
 	/**
@@ -272,7 +314,12 @@ public class BreakoutState {
 	 */
 	public void movePaddleLeft(int elapsedTime) {
 		Point ncenter = paddle.getCenter().plus(PADDLE_VEL.scaled(-1).scaled(elapsedTime));
-		paddle = new NormalPaddle(getField().minusMargin(PaddleState.WIDTH/2,0).constrain(ncenter));
+
+		if (paddle.getReplicateCount() > 0) {
+			paddle = new ReplicatorPaddle(getField().minusMargin(PaddleState.WIDTH / 2, 0).constrain(ncenter), paddle.getReplicateCount());
+		} else {
+			paddle = new NormalPaddle(getField().minusMargin(PaddleState.WIDTH / 2, 0).constrain(ncenter));
+		}
 	}
 
 	/**

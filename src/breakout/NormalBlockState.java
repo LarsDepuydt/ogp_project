@@ -10,6 +10,7 @@ public class NormalBlockState extends BlockState {
     private static final Color color = Color.blue;
     private final int health = 1;
     private final boolean superchargedBall = false;
+    private final boolean replicatorPaddle = false;
 
     public NormalBlockState(Rect location) {
         this.location = location;
@@ -25,5 +26,9 @@ public class NormalBlockState extends BlockState {
 
     public boolean getMakeSupercharged() {
         return superchargedBall;
+    }
+
+    public boolean getMakeReplicatorPaddle() {
+        return replicatorPaddle;
     }
 }

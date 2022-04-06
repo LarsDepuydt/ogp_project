@@ -28,5 +28,7 @@ public abstract class PaddleState {
 	public abstract Rect getLocation();
 
 	public abstract Color getColor();
+
+	public abstract int getReplicateCount();
 }
 
