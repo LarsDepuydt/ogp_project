@@ -7,6 +7,7 @@ public class PowerupBallBlockState extends BlockState {
 
     private final Rect location;
     private static final Color color = Color.magenta;
+    private final int health = 1;
 
     public PowerupBallBlockState(Rect location) {
         this.location = location;
@@ -15,4 +16,8 @@ public class PowerupBallBlockState extends BlockState {
     public Rect getLocation() { return location; }
 
     public Color getColor() { return color; }
+
+    public int getHealth() {
+        return health;
+    }
 }

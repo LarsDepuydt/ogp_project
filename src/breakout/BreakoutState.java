@@ -16,7 +16,7 @@ import java.util.Arrays;
  * @invar | getField().contains(getPaddle().getLocation())
  */
 public class BreakoutState {
-	public static final int MAX_ELAPSED_TIME = 1000; // TODO: kheb maar iets gepakt, echt geen idee wat ze allemaal bedoelen met die elapsed time
+	public static int MAX_ELAPSED_TIME = 50;
 	private static final Vector PADDLE_VEL = new Vector(10,0);
 	/**
 	 * @invar | bottomRight != null
@@ -175,10 +175,13 @@ public class BreakoutState {
 
 	private void removeBlock(BlockState block) {
 		ArrayList<BlockState> nblocks = new ArrayList<BlockState>();
-		for( BlockState b : blocks ) {
-			if(b != block) {
+		for (BlockState b : blocks) {
+			if (b != block) {
 				nblocks.add(b);
 			}
+		}
+		if (block.getHealth() > 1) {
+			nblocks.add(new SturdyBlockState(block.getLocation(), block.getHealth() - 1));
 		}
 		blocks = nblocks.toArray(new BlockState[] {});
 	}

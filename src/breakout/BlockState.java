@@ -16,4 +16,6 @@ public abstract class BlockState {
 	public abstract Rect getLocation();
 
 	public abstract Color getColor();
+
+	public abstract int getHealth();
 }
