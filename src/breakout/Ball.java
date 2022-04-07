@@ -15,7 +15,7 @@ public abstract class Ball {
 
 	public abstract Vector getVelocity();
 
-	public abstract Vector bounceOn(Rect rect);
+	public abstract Vector hitBlock(Rect rect, boolean destroyed);
 
 	public abstract Point getCenter();
 

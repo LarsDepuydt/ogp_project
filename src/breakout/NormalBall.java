@@ -44,10 +44,11 @@ public class NormalBall extends Ball {
      *       | (getVelocity().product(rect.collideWith(getLocation())) <= 0 && result == null) ||
      *       | (result.equals(getVelocity().mirrorOver(rect.collideWith(getLocation()))))
      */
-    public Vector bounceOn(Rect rect) {
+    public Vector hitBlock(Rect rect, boolean destroyed) {
         Vector coldir = rect.collideWith(location);
         if(coldir != null && velocity.product(coldir) > 0) {
             return velocity.mirrorOver(coldir);
+
         }
         return null;
     }
