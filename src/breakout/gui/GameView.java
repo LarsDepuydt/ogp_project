@@ -15,7 +15,6 @@ import breakout.Ball;
 import breakout.BlockState;
 import breakout.BreakoutFacade;
 import breakout.BreakoutState;
-import breakout.Circle;
 import breakout.Point;
 import breakout.PaddleState;
 import breakout.Rect;
@@ -31,7 +30,7 @@ public class GameView extends JPanel {
 	private boolean rightKeyDown = false;
 
 	long prevTimestamp = 0;
-	
+
 	private BreakoutFacade facade;
 
 	private void gameChanged() {
@@ -49,7 +48,7 @@ public class GameView extends JPanel {
 	/**
 	 * Create a new GameView for playing breakout starting from a given
 	 * breakoutState.
-	 * 
+	 *
 	 * @param breakoutState initial state for the game.
 	 */
 	public GameView(BreakoutState breakoutState) {
@@ -62,28 +61,28 @@ public class GameView extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
-				case KeyEvent.VK_RIGHT -> {
-					rightKeyDown = true;
-					break;
-				}
-				case KeyEvent.VK_LEFT -> {
-					leftKeyDown = true;
-					break;
-				}
+					case KeyEvent.VK_RIGHT -> {
+						rightKeyDown = true;
+						break;
+					}
+					case KeyEvent.VK_LEFT -> {
+						leftKeyDown = true;
+						break;
+					}
 				}
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				switch (e.getKeyCode()) {
-				case KeyEvent.VK_RIGHT -> {
-					rightKeyDown = false;
-					break;
-				}
-				case KeyEvent.VK_LEFT -> {
-					leftKeyDown = false;
-					break;
-				}
+					case KeyEvent.VK_RIGHT -> {
+						rightKeyDown = false;
+						break;
+					}
+					case KeyEvent.VK_LEFT -> {
+						leftKeyDown = false;
+						break;
+					}
 				}
 			}
 		});
@@ -146,7 +145,7 @@ public class GameView extends JPanel {
 		paintBlocks(g);
 		paintBalls(g);
 		paintPaddle(g);
-		
+
 		// domi: this fixes a visual latency bug on my system...
 		Toolkit.getDefaultToolkit().sync();
 	}
@@ -171,10 +170,12 @@ public class GameView extends JPanel {
 	private void paintBalls(Graphics g) {
 		// ball
 		for (Ball ball : facade.getBalls(breakoutState)) {
-			Circle c = new Circle(facade.getCenter(ball), facade.getDiameter(ball));
-			Point tl = c.getTopLeftPoint();
-			Point br = c.getBottomRightPoint();
-			Color color = ball.getColor();
+			Point center = facade.getCenter(ball);
+			int diam = facade.getDiameter(ball);
+			int radius = diam/2;
+			Point tl = center.plus(new Vector(-radius,-radius));
+			Point br = center.plus(new Vector(radius,radius));
+			Color color = facade.getColor(ball);
 			paintBall(g, color, tl, br);
 		}
 	}

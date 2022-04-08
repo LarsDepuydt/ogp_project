@@ -12,13 +12,13 @@ public class BreakoutApplication {
 ##########
 ###!######
 ##########
-SRS!S!SR#S
+SSS!SSS!#S
      o
 
      =
 
 """;
-	
+
 	public static void main(String[] args) {
 		BreakoutState state = GameMap.createStateFromDescription(initMap);
 		EventQueue.invokeLater(() -> {

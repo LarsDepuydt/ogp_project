@@ -21,10 +21,9 @@ public class BreakoutFacade {
 		return new SuperchargedBall(circle, initBallVelocity);
 	}
 
-	public BreakoutState createBreakoutState(Ball[] balls, BlockState[] blocks, Point topRight,
-			PaddleState paddle) {
+	public BreakoutState createBreakoutState(Ball[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
 		// TODO
-		return new BreakoutState(balls, blocks, topRight, paddle);
+		return new BreakoutState(balls, blocks, bottomRight, paddle);
 	}
 
 	public BlockState createNormalBlockState(Point topLeft, Point bottomRight) {
@@ -36,7 +35,7 @@ public class BreakoutFacade {
 	public BlockState createSturdyBlockState(Point topLeft, Point bottomRight, int i) {
 		// TODO
 		var rect = new Rect(topLeft, bottomRight);
-		return new SturdyBlockState(rect, 3);
+		return new SturdyBlockState(rect, i);
 	}
 
 	public BlockState createReplicatorBlockState(Point topLeft, Point bottomRight) {
