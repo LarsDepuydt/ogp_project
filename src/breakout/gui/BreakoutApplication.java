@@ -18,7 +18,7 @@ SSS!SSS!#S
      =
 
 """;
-	
+
 	public static void main(String[] args) {
 		BreakoutState state = GameMap.createStateFromDescription(initMap);
 		EventQueue.invokeLater(() -> {

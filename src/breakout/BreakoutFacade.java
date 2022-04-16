@@ -6,84 +6,87 @@ import java.awt.Color;
 public class BreakoutFacade {
 	public PaddleState createNormalPaddleState(Point center) {
 		// TODO
-		return new PaddleState(center, );
+		return new NormalPaddle(center);
 	}
 
 	public Ball createNormalBall(Point center, int diameter, Vector initBallVelocity) {
 		// TODO
 		var circle = new Circle(center, diameter);
-		return new Ball(circle, initBallVelocity);
+		return new NormalBall(circle, initBallVelocity);
 	}
 
 	public Ball createSuperchargedBall(Point center, int diameter, Vector initBallVelocity, int lifetime) {
 		// TODO
-		return null;
+		var circle = new Circle(center, diameter);
+		return new SuperchargedBall(circle, initBallVelocity);
 	}
 
-	public BreakoutState createBreakoutState(Ball[] balls, BlockState[] blocks, Point topRight,
-			PaddleState paddle) {
+	public BreakoutState createBreakoutState(Ball[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
 		// TODO
-		return new BreakoutState(balls, blocks, topRight, paddle);
+		return new BreakoutState(balls, blocks, bottomRight, paddle);
 	}
 
 	public BlockState createNormalBlockState(Point topLeft, Point bottomRight) {
 		// TODO
 		var rect = new Rect(topLeft, bottomRight);
-		return new BlockState(rect);
+		return new NormalBlockState(rect);
 	}
 
 	public BlockState createSturdyBlockState(Point topLeft, Point bottomRight, int i) {
 		// TODO
-		return null;
+		var rect = new Rect(topLeft, bottomRight);
+		return new SturdyBlockState(rect, i);
 	}
 
 	public BlockState createReplicatorBlockState(Point topLeft, Point bottomRight) {
 		// TODO
-		return null;
+		var rect = new Rect(topLeft, bottomRight);
+		return new ReplicatorBlockState(rect);
 	}
 
 	public BlockState createPowerupBallBlockState(Point topLeft, Point bottomRight) {
 		// TODO
-		return null;
+		var rect = new Rect(topLeft, bottomRight);
+		return new PowerupBallBlockState(rect);
 	}
 
 	public Color getColor(PaddleState paddle) {
 		// TODO
-		return null;
+		return paddle.getColor();
 	}
 
 	public Color getColor(Ball ball) {
 		// TODO
-		return null;
+		return ball.getColor();
 	}
 
 	public Rect getLocation(PaddleState paddle) {
 		// TODO
-		return null;
+		return paddle.getLocation();
 	}
 
 	public Point getCenter(Ball ball) {
 		// TODO
-		return null;
+		return ball.getCenter();
 	}
 
 	public int getDiameter(Ball ball) {
 		// TODO
-		return -1;
+		return ball.getLocation().getDiameter();
 	}
 
 	public Ball[] getBalls(BreakoutState breakoutState) {
 		// TODO
-		return null;
+		return breakoutState.getBalls();
 	}
 
 	public Color getColor(BlockState block) {
 		// TODO
-		return null;
+		return block.getColor();
 	}
 
 	public Rect getLocation(BlockState block) {
 		// TODO
-		return null;
+		return block.getLocation();
 	}
 }
