@@ -1,9 +1,8 @@
 package breakout;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class PowerupBallBlockState extends BlockState {
-
     private final Rect location;
     private static final Color color = Color.magenta;
     private final int health = 1;

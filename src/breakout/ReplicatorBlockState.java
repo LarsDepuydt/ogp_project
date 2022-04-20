@@ -3,8 +3,6 @@ package breakout;
 import java.awt.Color;
 
 public class ReplicatorBlockState extends BlockState {
- 
-
     private final Rect location;
     private static final Color color = Color.gray;
     private final int health = 1;
