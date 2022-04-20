@@ -29,4 +29,3 @@ public abstract class Ball {
 
 	public abstract int getTimeLeft();
 }
-

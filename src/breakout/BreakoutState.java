@@ -16,6 +16,7 @@ import java.util.Arrays;
  * @invar | getField().contains(getPaddle().getLocation())
  */
 public class BreakoutState {
+	
 	public static int MAX_ELAPSED_TIME = 50;
 	private static final Vector PADDLE_VEL = new Vector(10,0);
 	/**
@@ -57,6 +58,7 @@ public class BreakoutState {
 	 * @throws IllegalArgumentException | !(new Rect(Point.ORIGIN,bottomRight)).contains(paddle.getLocation())
 	 * @throws IllegalArgumentException | !Arrays.stream(blocks).allMatch(b -> (new Rect(Point.ORIGIN,bottomRight)).contains(b.getLocation()))
 	 * @throws IllegalArgumentException | !Arrays.stream(balls).allMatch(b -> (new Rect(Point.ORIGIN,bottomRight)).contains(b.getLocation()))
+	 * 
 	 * @post | Arrays.equals(getBalls(),balls)
 	 * @post | Arrays.equals(getBlocks(),blocks)
 	 * @post | getBottomRight().equals(bottomRight)
@@ -131,9 +133,17 @@ public class BreakoutState {
 	public Rect getField() {
 		return getFieldInternal();
 	}
-
+	
+	/**
+	 * Check wether a ball colided with the wall. If so, set the new velocity it gets.
+	 * 
+	 * @pre | ball != null
+	 * 
+	 * @post | ball.getVelocity() == old(ball.getVelocity()) //||
+	 * 		 | //ball.getVelocity().equals(ball.getVelocity().mirrorOver(Arrays.stream(walls).collideWith(ball.getLocation())))
+	 * 
+	 */
 	private void bounceWalls(Ball ball) {
-		Circle loc = ball.getLocation();
 		for( Rect wall : walls) {
 			Vector nspeed = ball.hitBlock(wall, false);
 			if( nspeed != null ) {
@@ -141,6 +151,7 @@ public class BreakoutState {
 			}
 		}
 	}
+
 
 	private Ball removeDead(Ball ball) {
 		if( ball.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { return null; }

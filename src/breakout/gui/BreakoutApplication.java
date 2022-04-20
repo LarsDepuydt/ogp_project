@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import breakout.BreakoutState;
 import breakout.GameMap;
 
-public class BreakoutApplication {
+public class BreakoutApplication  {
 
 	public static final String initMap = """
 ##########
