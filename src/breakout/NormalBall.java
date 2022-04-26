@@ -35,6 +35,8 @@ public class NormalBall extends Ball {
     public Vector getVelocity() {
         return velocity;
     }
+
+    
     
     /**
      * Check whether this ball collides with a given `rect` and if so, return the
@@ -115,4 +117,6 @@ public class NormalBall extends Ball {
     public int getTimeLeft() {
         return timeLeft;
     }
+    
+    
 }
