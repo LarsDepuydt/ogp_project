@@ -45,6 +45,7 @@ public class SuperchargedBall extends Ball {
      * @pre | rect != null
      * @post | (rect.collideWith(getLocation()) == null && result == null) ||
      *       | (getVelocity().product(rect.collideWith(getLocation())) <= 0 && result == null) ||
+     *       | (destroyed && result.equals(getVelocity())) ||
      *       | (result.equals(getVelocity().mirrorOver(rect.collideWith(getLocation()))))
      */
     public Vector hitBlock(Rect rect, boolean destroyed) {
@@ -57,15 +58,6 @@ public class SuperchargedBall extends Ball {
             }
         }
         return null;
-    }
-
-    /**
-     * Return this point's center.
-     *
-     * @post | getLocation().getCenter().equals(result)
-     */
-    public Point getCenter() {
-        return getLocation().getCenter();
     }
     
     /**

@@ -1,6 +1,6 @@
 package breakout;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class NormalBall extends Ball {
     private Circle location;
@@ -54,15 +54,6 @@ public class NormalBall extends Ball {
 
         }
         return null;
-    }
-
-    /**
-     * Return this point's center.
-     *
-     * @post | getLocation().getCenter().equals(result)
-     */
-    public Point getCenter() {
-        return getLocation().getCenter();
     }
     
     /**

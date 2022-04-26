@@ -59,6 +59,8 @@ class PaddleTest {
 		assertEquals(2,rpa00c2.getReplicateCount());
 		assertEquals(Color.gray, rpa00c2.getColor());
 		
+		assertEquals(0, npa00.getReplicateCount());
+		
 	}
 
 }

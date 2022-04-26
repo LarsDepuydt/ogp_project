@@ -17,8 +17,6 @@ public abstract class Ball {
 
 	public abstract Vector hitBlock(Rect rect, boolean destroyed);
 
-	public abstract Point getCenter();
-
 	public abstract Color getColor();
 
 	public abstract void moveForward(int elapsedTime);

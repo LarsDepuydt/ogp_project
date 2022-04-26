@@ -2,6 +2,8 @@ package breakout;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Color;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,12 +19,13 @@ class BallTest {
 	Point p143;
 	Circle c1432;
 	Vector vm1010;
-	Point p611;
-	Circle c6112;
+	Point p89;
+	Circle c892;
 	Vector v10m10;
 	Ball b1;
 	Ball b2;
 	Ball b3;
+	Ball b4;
 	
 	Vector v2020;
 	Point p1213;
@@ -43,12 +46,13 @@ class BallTest {
 		p143 = new Point(14,3);
 		c1432 = new Circle(p143,2);
 		vm1010 = new Vector(-10,10);
-		p611 = new Point(6,11);
-		c6112 = new Circle(p611,2);
+		p89 = new Point(8,9);
+		c892 = new Circle(p89,2);
 		v10m10 = new Vector(10,-10);
 		b1 = new NormalBall(c231,v1010);
 		b2 = new SuperchargedBall(c1432,vm1010);
-		b3 = new NormalBall(c6112,v10m10);
+		b3 = new NormalBall(c892,v10m10);
+		b4 = new SuperchargedBall(c892, v10m10);
 		
 		v2020 = new Vector(20,20);
 		p1213 = new Point(12,13);
@@ -70,11 +74,31 @@ class BallTest {
 		assertEquals(c1432,b2.getLocation());
 		assertEquals(vm1010, b2.getVelocity());
 		
-		assertEquals(p611, b3.getLocation().getCenter());
+		assertEquals(p89, b3.getLocation().getCenter());
 		assertEquals(2, b3.getLocation().getDiameter());
-		assertEquals(c6112,b3.getLocation());
+		assertEquals(c892,b3.getLocation());
 		assertEquals(v10m10, b3.getVelocity());
 		
+		assertEquals(b1.getColor(), Color.white);
+		assertEquals(b2.getColor(), Color.MAGENTA);
+		assertNotEquals(b1.getColor(), b2.getColor());
+		
+		assertEquals(b1.getTimeLeft(), 0);
+		assertEquals(b2.getTimeLeft(), 10 * 1000);
+		
+	}
+	
+	@Test
+	void testSetters() {
+		b1.setCenter(c1432);
+		assertEquals(b1.getLocation(), c1432);
+		b2.setCenter(c1432);
+		assertEquals(b2.getLocation(), c1432);
+		
+		b1.setVelocity(v1010);
+		assertEquals(b1.getVelocity(), v1010);
+		b2.setVelocity(v1010);
+		assertEquals(b2.getVelocity(), v1010);
 	}
 
 	@Test
@@ -87,6 +111,11 @@ class BallTest {
 		
 		assertEquals(v1010,b3.hitBlock(r53910, false));
 		assertEquals(v1010,b3.hitBlock(r53910, true));
+		
+//		System.out.println(b4.hitBlock(r53910, true));
+		
+		assertEquals(new Vector(10, 10),b4.hitBlock(r53910, false));
+		assertEquals(v10m10,b4.hitBlock(r53910, true));
 	}
 	
 	@Test 

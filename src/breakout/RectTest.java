@@ -35,6 +35,9 @@ class RectTest {
 	void testRect() {
 		assertEquals(p11, r1138.getTopLeft());
 		assertEquals(p38, r1138.getBottomRight());
+		
+		assertEquals(2, r1138.getWidth());
+		assertEquals(7, r1138.getHeight());
 	}
 
 	@Test

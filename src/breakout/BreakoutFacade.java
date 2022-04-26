@@ -67,7 +67,7 @@ public class BreakoutFacade {
 
 	public Point getCenter(Ball ball) {
 		// TODO
-		return ball.getCenter();
+		return ball.getLocation().getCenter();
 	}
 
 	public int getDiameter(Ball ball) {

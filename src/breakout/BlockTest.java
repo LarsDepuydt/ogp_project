@@ -86,10 +86,13 @@ class BlockTest {
 		assertEquals(false, b4h3.getMakeReplicatorPaddle());
 		assertEquals(false, b4h2.getMakeReplicatorPaddle());
 		assertEquals(false, b4h1.getMakeReplicatorPaddle());
-		
-		
-		
-		
+			
+		assertEquals(1, b1.getHealth());
+		assertEquals(1, b2.getHealth());
+		assertEquals(1, b3.getHealth());
+		assertEquals(3, b4h3.getHealth());
+		assertEquals(2, b4h2.getHealth());
+		assertEquals(1, b4h1.getHealth());
 	}
 
 }
