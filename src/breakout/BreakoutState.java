@@ -174,7 +174,7 @@ public class BreakoutState {
 	
 	private Ball collideBallBlocks(Ball ball) {
 		for(BlockState block : blocks) {
-			Vector nspeed = ball.hitBlock(block.getLocation(), ball.getTimeLeft() <= 0 || block.getHealth() > 1);
+			Vector nspeed = ball.hitBlock(block.getLocation(), !(ball.getTimeLeft() >= 0 && block.getHealth() > 1));
 			if(nspeed != null) {
 				removeBlock(block);
 				ball.setVelocity(nspeed);
@@ -244,6 +244,7 @@ public class BreakoutState {
 			}
 		}
 		if (block.getHealth() > 1) {
+			System.out.println(block.getHealth());
 			nblocks.add(new SturdyBlockState(block.getLocation(), block.getHealth() - 1));
 		}
 		blocks = nblocks.toArray(new BlockState[] {});
