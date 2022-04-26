@@ -137,10 +137,10 @@ public class BreakoutState {
 	/**
 	 * Check wether a ball colided with the wall. If so, set the new velocity it gets.
 	 * 
-	 * @pre | ball != null
+	 * pre | ball != null
 	 * 
-	 * @post | ball.getVelocity() == old(ball.getVelocity()) //||
-	 * 		 | //ball.getVelocity().equals(ball.getVelocity().mirrorOver(Arrays.stream(walls).collideWith(ball.getLocation())))
+	 * post | ball.getVelocity() == old(ball.getVelocity()) ||
+	 * 	    | ball.getVelocity().equals(old(ball.getVelocity()).mirrorOver(Arrays.stream(walls).collideWith(ball.getLocation())))
 	 * 
 	 */
 	private void bounceWalls(Ball ball) {
@@ -152,9 +152,18 @@ public class BreakoutState {
 		}
 	}
 
-
+	
+	/**
+	 * Remove a ball if it has "collided" with the bottom of the field.
+	 * 
+	 * @pre | ball != null
+	 * 
+	 * @post | ball.getLocation() != null
+	 *		 
+	 */
 	private Ball removeDead(Ball ball) {
-		if( ball.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { return null; }
+		if( ball.getLocation().getBottommostPoint().getY() > bottomRight.getY()) 
+		{ return null; }
 		else { return ball; }
 	}
 

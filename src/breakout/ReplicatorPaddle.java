@@ -53,7 +53,7 @@ public class ReplicatorPaddle extends PaddleState {
     }
 
     /**
-     * Return the number of replicator balls the paddle should produce.
+     * Return the number of past collisions on a replicator paddle.
      */
     public int getReplicateCount() {
         return replicateCount;
