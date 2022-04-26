@@ -13,6 +13,7 @@ public class NormalBall extends Ball {
      *
      * @pre | location != null
      * @pre | velocity != null
+     * 
      * @post | getLocation() == location
      * @post | getVelocity().equals(velocity)
      */
@@ -34,7 +35,7 @@ public class NormalBall extends Ball {
     public Vector getVelocity() {
         return velocity;
     }
-
+    
     /**
      * Check whether this ball collides with a given `rect` and if so, return the
      * new velocity this ball will have after bouncing on the given rect.
@@ -61,23 +62,56 @@ public class NormalBall extends Ball {
     public Point getCenter() {
         return getLocation().getCenter();
     }
-
+    
+    /**
+     * Return the color of the object.
+     */
     public Color getColor() {
         return color;
     }
-
+    
+    /**
+	 * Move the ball forward for a certain time.
+	 * 
+	 * @mutates | getLocation()
+	 * 
+	 * @pre | elapsedTime != 0
+	 * 
+	 * @post | getLocation().getDiameter() == old(location.getDiameter()) 
+	 * @post | getLocation().getCenter().equals(old(location.getCenter()).plus(getVelocity().scaled(elapsedTime)))
+	 */
     public void moveForward(int elapsedTime) {
         location = new Circle(location.getCenter().plus(velocity.scaled(elapsedTime)), location.getDiameter());
     }
-
+    
+    /**
+     * Set the center to a new location on the grid.
+     * 
+     * @mutates | getLocation()
+     * 
+     * @pre | location != null
+     * 
+     * @post | location == getLocation()
+     */
     public void setCenter(Circle location) {
         this.location = location;
     }
-
+    
+    /**
+     * Change the ball's velocity.
+     * 
+     * @mutates | getVelocity()
+     * 
+     * @pre | velocity != null
+     * 
+     * @post | velocity == getVelocity()
+     */
     public void setVelocity(Vector velocity) {
         this.velocity = velocity;
     }
-
+    /**
+     * return the time that the supercharged ball has left being supercharged.
+     */
     public int getTimeLeft() {
         return timeLeft;
     }

@@ -45,10 +45,16 @@ public class ReplicatorPaddle extends PaddleState {
         return new Rect(center.plus(halfDiag), center.plus(halfDiag.scaled(-1)));
     }
 
+    /**
+     * Return the color of the object.
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Return the number of replicator balls the paddle should produce.
+     */
     public int getReplicateCount() {
         return replicateCount;
     }

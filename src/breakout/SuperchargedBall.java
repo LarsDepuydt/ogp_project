@@ -67,25 +67,58 @@ public class SuperchargedBall extends Ball {
     public Point getCenter() {
         return getLocation().getCenter();
     }
-
+    
+    /**
+     * Return the color of the object.
+     */
     public Color getColor() {
         return color;
     }
-
+    
+    /**
+	 * Move the ball forward for a certain time.
+	 * 
+	 * @mutates | getLocation()
+	 * 
+	 * @pre | elapsedTime != 0
+	 * 
+	 * @post | getLocation().getDiameter() == old(location.getDiameter()) 
+	 * @post | getLocation().getCenter().equals(old(location.getCenter()).plus(getVelocity().scaled(elapsedTime)))
+	 */
     public void moveForward(int elapsedTime) {
         location = new Circle(location.getCenter().plus(velocity.scaled(elapsedTime)), location.getDiameter());
         timeLeft = timeLeft - elapsedTime;
     }
 
+    /**
+     * Set the center to a new location on the grid.
+     * 
+     * @mutates | getLocation()
+     * 
+     * @pre | location != null
+     * 
+     * @post | location == getLocation()
+     */
     public void setCenter(Circle location) {
         this.location = location;
     }
-
+    
+    /**
+     * Change the ball's velocity.
+     * 
+     * @mutates | getVelocity()
+     * 
+     * @pre | velocity != null
+     * 
+     * @post | velocity == getVelocity()
+     */
     public void setVelocity(Vector velocity) {
         this.velocity = velocity;
     }
-
+    /**
+     * Return the time that the supercharged ball has left being supercharged.
+     */
     public int getTimeLeft() {
-       return timeLeft;
+        return timeLeft;
     }
 }

@@ -10,7 +10,15 @@ public class SturdyBlockState extends BlockState {
     private final boolean superchargedBall = false;
     private final boolean replicatorPaddle = false;
 
-
+    /**
+     * Construct a sturdy block at a given `location`, with a certain 'health' level.
+     *
+     * @pre | location != null
+     * @pre | health != 0
+     * 
+     * @post | getLocation() == location
+     * @post | getHealth() == health
+     */
     public SturdyBlockState(Rect location, int health) {
         this.location = location;
         this.health = health;
@@ -22,18 +30,36 @@ public class SturdyBlockState extends BlockState {
         }
     }
 
-    public Rect getLocation() { return location; }
-
-    public Color getColor() { return color; }
-
+    /**
+     * Return this blocks location.
+     */
+    public Rect getLocation() { 
+    	return location; 
+    	}
+    /**
+     * Return the color of the object.
+     */
+    public Color getColor() { 
+    	return color; 
+    	}
+    
+    /**
+     * Return the state of the sturdy blocks.
+     */
     public int getHealth() {
         return health;
     }
-
+    
+    /**
+     * Return 'True' or 'False', whether the block is a powerup block or not.
+     */
     public boolean getMakeSupercharged() {
         return superchargedBall;
     }
-
+    
+    /**
+     * Return 'True' or 'False', whether the block is a replicator block or not.
+     */
     public boolean getMakeReplicatorPaddle() {
         return replicatorPaddle;
     }
