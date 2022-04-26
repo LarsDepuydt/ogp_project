@@ -12,6 +12,7 @@ public class ReplicatorPaddle extends PaddleState {
 
     /**
      * Construct a paddle located around a given center in the field.
+     * 
      * @pre | center != null
      * @post | getCenter().equals(center)
      */
