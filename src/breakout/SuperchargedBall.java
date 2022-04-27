@@ -70,7 +70,7 @@ public class SuperchargedBall extends Ball {
     /**
 	 * Move the ball forward for a certain time.
 	 * 
-	 * @mutates | getLocation()
+	 * @mutates | this
 	 * 
 	 * @pre | elapsedTime != 0
 	 * 
@@ -85,7 +85,7 @@ public class SuperchargedBall extends Ball {
     /**
      * Set the center to a new location on the grid.
      * 
-     * @mutates | getLocation()
+     * @mutates | this
      * 
      * @pre | location != null
      * 
@@ -98,7 +98,7 @@ public class SuperchargedBall extends Ball {
     /**
      * Change the ball's velocity.
      * 
-     * @mutates | getVelocity()
+     * @mutates | this
      * 
      * @pre | velocity != null
      * 
