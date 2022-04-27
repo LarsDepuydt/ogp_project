@@ -2,9 +2,16 @@ package breakout;
 
 import java.awt.Color;
 
+/**
+ * Represents the state of a replicator block in the breakout game.
+ *
+ * @immutable
+ * @invar | getLocation() != null
+ */
 public class ReplicatorBlockState extends BlockState {
- 
-
+    /**
+     * @invar | location != null
+     */
     private final Rect location;
     private static final Color color = Color.gray;
     private final int health = 1;

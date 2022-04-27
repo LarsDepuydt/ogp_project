@@ -1,7 +1,13 @@
 package breakout;
 
-import java.awt.*;
+import java.awt.Color;
 
+/**
+ * Represents the state of a normal paddle in the breakout game.
+ *
+ * @immutable
+ * @invar | getCenter() != null
+ */
 public class NormalPaddle extends PaddleState {
     /**
      * @invar | center != null

@@ -1,7 +1,13 @@
 package breakout;
 
-import java.awt.*;
+import java.awt.Color;
 
+/**
+ * Represents the state of a replicator paddle in the breakout game.
+ *
+ * @immutable
+ * @invar | getCenter() != null
+ */
 public class ReplicatorPaddle extends PaddleState {
     /**
      * @invar | center != null

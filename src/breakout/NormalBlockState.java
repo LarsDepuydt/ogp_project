@@ -2,6 +2,12 @@ package breakout;
 
 import java.awt.Color;
 
+/**
+ * Represents the state of a block in the breakout game.
+ *
+ * @immutable
+ * @invar | getLocation() != null
+ */
 public class NormalBlockState extends BlockState {
     /**
      * @invar | location != null

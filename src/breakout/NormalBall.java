@@ -2,6 +2,13 @@ package breakout;
 
 import java.awt.Color;
 
+/**
+ * Represents the state of a normal ball in the breakout game.
+ * 
+ * @mutable
+ * @invar | getLocation() != null
+ * @invar | getVelocity() != null
+ */
 public class NormalBall extends Ball {
     private Circle location;
     private Vector velocity;
@@ -66,7 +73,7 @@ public class NormalBall extends Ball {
     /**
 	 * Move the ball forward for a certain time.
 	 * 
-	 * @mutates | this
+	 * @mutates this
 	 * 
 	 * @pre | elapsedTime != 0
 	 * 
@@ -80,7 +87,7 @@ public class NormalBall extends Ball {
     /**
      * Set the center to a new location on the grid.
      * 
-     * @mutates | this
+     * @mutates this
      * 
      * @pre | location != null
      * 
@@ -93,7 +100,7 @@ public class NormalBall extends Ball {
     /**
      * Change the ball's velocity.
      * 
-     * @mutates | this
+     * @mutates this
      * 
      * @pre | velocity != null
      * 

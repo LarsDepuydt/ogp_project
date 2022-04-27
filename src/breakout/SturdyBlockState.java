@@ -2,8 +2,18 @@ package breakout;
 
 import java.awt.Color;
 
+/**
+ * Represents the state of a sturdy block in the breakout game.
+ *
+ * @immutable
+ * @invar | getLocation() != null
+ * @invar | getHealth() != 0
+ */
 public class SturdyBlockState extends BlockState {
-
+    /**
+     * @invar | getLocation() != null
+     * @invar | getHealth() != 0
+     */
     private final Rect location;
     private final Color color;
     private final int health;

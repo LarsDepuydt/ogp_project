@@ -1,9 +1,17 @@
 package breakout;
 
-import java.awt.*;
+import java.awt.Color;
 
+/**
+ * Represents the state of a powerup block in the breakout game.
+ *
+ * @immutable
+ * @invar | getLocation() != null
+ */
 public class PowerupBallBlockState extends BlockState {
-
+    /**
+     * @invar | location != null
+     */
     private final Rect location;
     private static final Color color = Color.magenta;
     private final int health = 1;

@@ -7,12 +7,10 @@ import java.awt.Color;
  *
  * @immutable
  * @invar | getLocation() != null
+ * @invar | getHealth() != 0
  */
 public abstract class BlockState {
 
-	/**
-	 * Return the rectangle occupied by this block in the field.
-	 */
 	public abstract Rect getLocation();
 
 	public abstract Color getColor();

@@ -1,7 +1,14 @@
 package breakout;
 
-import java.awt.*;
+import java.awt.Color;
 
+/**
+ * Represents the state of a supercharged ball in the breakout game.
+ * 
+ * @mutable
+ * @invar | getLocation() != null
+ * @invar | getVelocity() != null
+ */
 public class SuperchargedBall extends Ball {
 
     private static final int INITIAL_TIME_SUPERCHARGEDBALL = 10 * 1000;
@@ -70,7 +77,7 @@ public class SuperchargedBall extends Ball {
     /**
 	 * Move the ball forward for a certain time.
 	 * 
-	 * @mutates | this
+	 * @mutates this
 	 * 
 	 * @pre | elapsedTime != 0
 	 * 
@@ -85,7 +92,7 @@ public class SuperchargedBall extends Ball {
     /**
      * Set the center to a new location on the grid.
      * 
-     * @mutates | this
+     * @mutates this
      * 
      * @pre | location != null
      * 
@@ -98,7 +105,7 @@ public class SuperchargedBall extends Ball {
     /**
      * Change the ball's velocity.
      * 
-     * @mutates | this
+     * @mutates this
      * 
      * @pre | velocity != null
      * 
