@@ -23,7 +23,7 @@ public class NormalBlockState extends BlockState {
      *
      * @pre | location != null
      * 
-     * @post | getLocation() == location
+     * @post | getLocation().equals(location)
      */
     public NormalBlockState(Rect location) {
         this.location = location;
@@ -34,14 +34,14 @@ public class NormalBlockState extends BlockState {
      * Return this blocks location.
      */
     public Rect getLocation() { 
-    	return location; 
-    	}
+    	return new Rect(location.getTopLeft(), location.getBottomRight());
+    }
     /**
      * Return the color of the object.
      */
     public Color getColor() { 
     	return color; 
-    	}
+    }
     
     /**
      * Return the state of the sturdy blocks.

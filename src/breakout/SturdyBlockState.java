@@ -11,8 +11,8 @@ import java.awt.Color;
  */
 public class SturdyBlockState extends BlockState {
     /**
-     * @invar | getLocation() != null
-     * @invar | getHealth() != 0
+     * @invar | location != null
+     * @invar | health != 0
      */
     private final Rect location;
     private final Color color;
@@ -26,7 +26,7 @@ public class SturdyBlockState extends BlockState {
      * @pre | location != null
      * @pre | health != 0
      * 
-     * @post | getLocation() == location
+     * @post | getLocation().equals(location)
      * @post | getHealth() == health
      */
     public SturdyBlockState(Rect location, int health) {
@@ -44,14 +44,14 @@ public class SturdyBlockState extends BlockState {
      * Return this blocks location.
      */
     public Rect getLocation() { 
-    	return location; 
-    	}
+    	return new Rect(location.getTopLeft(), location.getBottomRight());
+    }
     /**
      * Return the color of the object.
      */
     public Color getColor() { 
     	return color; 
-    	}
+    }
     
     /**
      * Return the state of the sturdy blocks.
