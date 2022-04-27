@@ -112,8 +112,6 @@ class BallTest {
 		assertEquals(v1010,b3.hitBlock(r53910, false));
 		assertEquals(v1010,b3.hitBlock(r53910, true));
 		
-//		System.out.println(b4.hitBlock(r53910, true));
-		
 		assertEquals(new Vector(10, 10),b4.hitBlock(r53910, false));
 		assertEquals(v10m10,b4.hitBlock(r53910, true));
 	}

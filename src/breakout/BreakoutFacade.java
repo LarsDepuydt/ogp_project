@@ -8,6 +8,11 @@ public class BreakoutFacade {
 		// TODO
 		return new NormalPaddle(center);
 	}
+	
+	public PaddleState createReplicatorPaddleState(Point center, int number) {
+		// TODO
+		return new ReplicatorPaddle(center, number);
+	}
 
 	public Ball createNormalBall(Point center, int diameter, Vector initBallVelocity) {
 		// TODO
