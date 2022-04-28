@@ -33,11 +33,9 @@ public class SuperchargedBall extends Ball {
 
     /**
      * Return this ball's location.
-     * 
-     * @creates result
      */
     public Circle getLocation() {
-    	return new Circle(location.getCenter(), location.getDiameter());
+    	return location;
     }
 
     /**
