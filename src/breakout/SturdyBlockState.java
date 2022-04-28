@@ -42,6 +42,8 @@ public class SturdyBlockState extends BlockState {
 
     /**
      * Return this blocks location.
+     * 
+     * @creates result
      */
     public Rect getLocation() { 
     	return new Rect(location.getTopLeft(), location.getBottomRight());

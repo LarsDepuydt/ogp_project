@@ -33,9 +33,11 @@ public class SuperchargedBall extends Ball {
 
     /**
      * Return this ball's location.
+     * 
+     * @creates result
      */
     public Circle getLocation() {
-        return location;
+    	return new Circle(location.getCenter(), location.getDiameter());
     }
 
     /**
@@ -48,6 +50,8 @@ public class SuperchargedBall extends Ball {
     /**
      * Check whether this ball collides with a given `rect` and if so, return the
      * new velocity this ball will have after bouncing on the given rect.
+     * 
+     * @inspects this
      *
      * @pre | rect != null
      * @post | (rect.collideWith(getLocation()) == null && result == null) ||
