@@ -30,7 +30,7 @@ public class GameView extends JPanel {
 	private boolean rightKeyDown = false;
 
 	long prevTimestamp = 0;
-
+	
 	private BreakoutFacade facade;
 
 	private void gameChanged() {
@@ -48,7 +48,7 @@ public class GameView extends JPanel {
 	/**
 	 * Create a new GameView for playing breakout starting from a given
 	 * breakoutState.
-	 *
+	 * 
 	 * @param breakoutState initial state for the game.
 	 */
 	public GameView(BreakoutState breakoutState) {
@@ -61,28 +61,28 @@ public class GameView extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
-					case KeyEvent.VK_RIGHT -> {
-						rightKeyDown = true;
-						break;
-					}
-					case KeyEvent.VK_LEFT -> {
-						leftKeyDown = true;
-						break;
-					}
+				case KeyEvent.VK_RIGHT -> {
+					rightKeyDown = true;
+					break;
+				}
+				case KeyEvent.VK_LEFT -> {
+					leftKeyDown = true;
+					break;
+				}
 				}
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				switch (e.getKeyCode()) {
-					case KeyEvent.VK_RIGHT -> {
-						rightKeyDown = false;
-						break;
-					}
-					case KeyEvent.VK_LEFT -> {
-						leftKeyDown = false;
-						break;
-					}
+				case KeyEvent.VK_RIGHT -> {
+					rightKeyDown = false;
+					break;
+				}
+				case KeyEvent.VK_LEFT -> {
+					leftKeyDown = false;
+					break;
+				}
 				}
 			}
 		});
@@ -145,7 +145,7 @@ public class GameView extends JPanel {
 		paintBlocks(g);
 		paintBalls(g);
 		paintPaddle(g);
-
+		
 		// domi: this fixes a visual latency bug on my system...
 		Toolkit.getDefaultToolkit().sync();
 	}

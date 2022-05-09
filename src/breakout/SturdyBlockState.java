@@ -2,77 +2,51 @@ package breakout;
 
 import java.awt.Color;
 
-/**
- * Represents the state of a sturdy block in the breakout game.
- *
- * @immutable
- * @invar | getLocation() != null
- * @invar | getHealth() != 0
- */
 public class SturdyBlockState extends BlockState {
-    /**
-     * @invar | location != null
-     * @invar | health != 0
-     */
-    private final Rect location;
-    private final Color color;
-    private final int health;
-    private final boolean superchargedBall = false;
-    private final boolean replicatorPaddle = false;
 
-    /**
-     * Construct a sturdy block at a given `location`, with a certain 'health' level.
-     *
-     * @pre | location != null
-     * @pre | health != 0
-     * 
-     * @post | getLocation().equals(location)
-     * @post | getHealth() == health
-     */
-    public SturdyBlockState(Rect location, int health) {
-        this.location = location;
-        this.health = health;
+	private static final Color COLOR1 = new Color(0x80, 0x00, 0xff);
+	private static final Color COLOR2 = new Color(0x80, 0x00, 0xcf);
+	private static final Color COLOR3 = new Color(0x80, 0x00, 0x9f);
+	private final int livesLeft;
 
-        switch (health) {
-            case 2: this.color = Color.orange; break;
-            case 1: this.color = Color.YELLOW; break;
-            default: this.color = Color.red;
-        }
-    }
+	public SturdyBlockState(Rect location, int lives) {
+		super(location);
+		livesLeft = lives;
+	}
 
-    /**
-     * Return this blocks location.
-     * 
-     * @creates result
-     */
-    public Rect getLocation() { 
-    	return new Rect(location.getTopLeft(), location.getBottomRight());
-    }
-    /**
-     * Return the color of the object.
-     */
-    public Color getColor() { 
-    	return color; 
-    }
-    
-    /**
-     * Return the state of the sturdy blocks.
-     */
-    public int getHealth() {
-        return health;
-    }
-    
-    /**
-     * Return 'True' or 'False', whether the block is a powerup block or not.
-     */
-    public boolean getMakeSupercharged() {
-        return superchargedBall;
-    }
-    
-    /**
-     * Return 'True' or 'False', whether the block is a replicator block or not.
-     */
-    public boolean getMakeReplicatorPaddle() {
-        return replicatorPaddle;
-    }
+	public int getLivesLeft() {
+		return livesLeft;
+	}
+	
+	@Override
+	public BlockState blockStateAfterHit() {
+		if (livesLeft == 1) {
+			return null;
+		} else {
+			return new SturdyBlockState(getLocation(), livesLeft - 1);
+		}
+	}
+
+	@Override
+	public Ball ballStateAfterHit(Ball ballState) {
+		return ballState;
+	}
+
+	@Override
+	public PaddleState paddleStateAfterHit(PaddleState paddleState) {
+		return paddleState;
+	}
+
+	@Override
+	public Color getColor() {
+		switch (livesLeft) {
+		case 1:
+			return COLOR1;
+		case 2:
+			return COLOR2;
+		default:
+			return COLOR3;
+		}
+	}
+
 }

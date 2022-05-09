@@ -1,123 +1,54 @@
 package breakout;
 
 import java.awt.Color;
+//import java.util.Arrays;
 
-/**
- * Represents the state of a normal ball in the breakout game.
- * 
- * @mutable
- * @invar | getLocation() != null
- * @invar | getVelocity() != null
- */
 public class NormalBall extends Ball {
-    private Circle location;
-    private Vector velocity;
-    private static final Color color = Color.white;
-    private static int timeLeft = 0;
 
-    /**
-     * Construct a new ball at a given `location`, with a given `velocity`.
-     *
-     * @pre | location != null
-     * @pre | velocity != null
-     * 
-     * @post | getLocation() == location
-     * @post | getVelocity().equals(velocity)
-     */
-    public NormalBall(Circle location, Vector velocity) {
-        this.location = location;
-        this.velocity = velocity;
-    }
+	private static final Color BALL_COLOR = Color.yellow;
 
-    /**
-     * Return this ball's location.
-     */
-    public Circle getLocation() {
-        return location;
-    }
+	public NormalBall(Circle location, Vector velocity) {
+		super(location, velocity);
+	}
 
-    /**
-     * Return this ball's velocity.
-     */
-    public Vector getVelocity() {
-        return velocity;
-    }
-
-    
-    
-    /**
-     * Check whether this ball collides with a given `rect` and if so, return the
-     * new velocity this ball will have after bouncing on the given rect.
-     * 
-     * @inspects this
-     *
-     * @pre | rect != null
-     * @post | (rect.collideWith(getLocation()) == null && result == null) ||
-     *       | (getVelocity().product(rect.collideWith(getLocation())) <= 0 && result == null) ||
-     *       | (result.equals(getVelocity().mirrorOver(rect.collideWith(getLocation()))))
-     */
-    public Vector hitBlock(Rect rect, boolean destroyed) {
-        Vector coldir = rect.collideWith(location);
-        if(coldir != null && velocity.product(coldir) > 0) {
-            return velocity.mirrorOver(coldir);
-
-        }
-        return null;
-    }
-    
-    /**
-     * Return the color of the object.
-     */
-    public Color getColor() {
-        return color;
-    }
-    
-    /**
-	 * Move the ball forward for a certain time.
+	/**
+	 * Update the BallState after hitting a block at a given location.
 	 * 
+	 * @pre | rect != null
+	 * @pre | collidesWith(rect)
+	 * @post | getLocation().equals(old(getLocation()))
+	 * @post | getVelocity().equals(old(getVelocity()).mirrorOver(rect.collideWith(old(getLocation()))))
 	 * @mutates this
-	 * 
-	 * @pre | elapsedTime != 0
-	 * 
-	 * @post | getLocation().getDiameter() == old(location.getDiameter()) 
-	 * @post | getLocation().getCenter().equals(old(location.getCenter()).plus(getVelocity().scaled(elapsedTime)))
 	 */
-    public void moveForward(int elapsedTime) {
-        location = new Circle(location.getCenter().plus(velocity.scaled(elapsedTime)), location.getDiameter());
-    }
-    
-    /**
-     * Set the center to a new location on the grid.
-     * 
-     * @mutates this
-     * 
-     * @pre | location != null
-     * 
-     * @post | location == getLocation()
-     */
-    public void setCenter(Circle location) {
-        this.location = location;
-    }
-    
-    /**
-     * Change the ball's velocity.
-     * 
-     * @mutates this
-     * 
-     * @pre | velocity != null
-     * 
-     * @post | velocity == getVelocity()
-     */
-    public void setVelocity(Vector velocity) {
-        this.velocity = velocity;
-    }
-    
-    /**
-     * return the time that the supercharged ball has left being supercharged.
-     */
-    public int getTimeLeft() {
-        return timeLeft;
-    }
-    
-    
+	@Override
+	public void hitBlock(Rect rect, boolean destroyed) {
+		velocity = bounceOn(rect);
+	}
+
+	@Override
+	public void move(Vector v, int elapsedTime) {
+		location = new Circle(getLocation().getCenter().plus(v), getLocation().getDiameter());
+	}
+
+	@Override
+	public void hitPaddle(Rect rect, Vector paddleVel) {
+		Vector nspeed = bounceOn(rect);
+		velocity = nspeed.plus(paddleVel.scaledDiv(5));
+	}
+
+	@Override
+	public void hitWall(Rect rect) {
+		velocity = bounceOn(rect);
+	}
+
+	@Override
+	public Color getColor() {
+		return BALL_COLOR;
+	}
+
+	@Override
+	public Ball cloneWithVelocity(Vector v) {
+		return new NormalBall(getLocation(), v);
+	}
+
 }

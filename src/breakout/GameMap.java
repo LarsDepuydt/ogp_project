@@ -22,16 +22,16 @@ public class GameMap {
 		Point blockTL = bottomLeft.plus(marginBL);
 		Point blockBR = blockTL.plus(size);
 		switch (type) {
-			case '#':
-				return facade.createNormalBlockState(blockTL, blockBR);
-			case 'S':
-				return facade.createSturdyBlockState(blockTL, blockBR, 3);
-			case 'R':
-				return facade.createReplicatorBlockState(blockTL, blockBR);
-			case '!':
-				return facade.createPowerupBallBlockState(blockTL, blockBR);
-			default:
-				return null;
+		case '#':
+			return facade.createNormalBlockState(blockTL, blockBR);
+		case 'S':
+			return facade.createSturdyBlockState(blockTL, blockBR, 3);
+		case 'R':
+			return facade.createReplicatorBlockState(blockTL, blockBR);
+		case '!':
+			return facade.createPowerupBallBlockState(blockTL, blockBR);
+		default:
+			return null;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class GameMap {
 
 	/**
 	 * Return the initial breakout state represented by string `description`.
-	 *
+	 * 
 	 * @pre | description != null
 	 * @post | result != null
 	 */
@@ -70,24 +70,24 @@ public class GameMap {
 			Point cursor = topLeft;
 			for (char c : line.toCharArray()) {
 				switch (c) {
-					case '#':
-						blocks.add(createBlock(cursor, '#'));
-						break;
-					case 'S':
-						blocks.add(createBlock(cursor, 'S'));
-						break;
-					case 'R':
-						blocks.add(createBlock(cursor, 'R'));
-						break;
-					case '!':
-						blocks.add(createBlock(cursor, '!'));
-						break;
-					case 'o':
-						balls.add(createBall(cursor));
-						break;
-					case '=':
-						paddle = createPaddle(cursor);
-						break;
+				case '#':
+					blocks.add(createBlock(cursor, '#'));
+					break;
+				case 'S':
+					blocks.add(createBlock(cursor, 'S'));
+					break;
+				case 'R':
+					blocks.add(createBlock(cursor, 'R'));
+					break;
+				case '!':
+					blocks.add(createBlock(cursor, '!'));
+					break;
+				case 'o':
+					balls.add(createBall(cursor));
+					break;
+				case '=':
+					paddle = createPaddle(cursor);
+					break;
 				}
 				cursor = cursor.plus(unitVecRight);
 			}
