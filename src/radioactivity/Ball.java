@@ -18,7 +18,7 @@ import breakout.BreakoutState;
  */
 public abstract class Ball {
 	
-	int eCharge;
+	private int eCharge = 1;
     /**
      * @peerObjects
      */
@@ -52,6 +52,59 @@ public abstract class Ball {
 	 */
 	public Vector getVelocity() {
 		return velocity;
+	}
+
+	public int getEcharge() {
+		return eCharge;
+	}
+
+	/**
+	 * @peerObjects
+	 */
+	public Set<Alpha> getLinkedAlphas() {
+		return Set.copyOf(linkedAlphas);
+	}
+
+	/**
+	 * Add a link between a ball and an alpha particle
+	 *
+	 * @throws IllegalArgumentException if {@code alpha} is null
+	 * 	| alpha == null
+	 *
+	 * @mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
+	 *
+	 * @post The given linked alpha particles equal the old linked alpha particles plus this alpha particle
+	 * 	| alpha.getBalls().equals(Set.plus(old(linkedAlphas.getBalls()), this))
+	 */
+	public void addLink(Alpha alpha) {
+		if (alpha == null) {
+			throw new IllegalArgumentException("Alpha_is_null");
+		}
+
+		linkedAlphas.add(alpha);
+		alpha.linkedBalls.add(this);
+	}
+
+	/**
+	 * Removes a given alpha particle from the linked alpha particles
+	 *
+	 * @throws IllegalArgumentException if {@code alpha} is null
+	 * 	 | alpha == null
+	 *
+	 * @mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
+	 *
+	 * @post This ball is no longer linked to the alpha particle
+	 * 	| getLinkedAlphas().equals(Set.minus(old(getLinkedAlphas()), alpha)
+	 * @post This alpha particles old linked balls are its old linked balls minus this ball
+	 * 	| getLinkedAlphas().getLinkedBalls().equals(Set.minus(old(getLinkedAlphas().getLinkedBalls()), this)
+	 */
+	public void removeLink(Alpha alpha) {
+		if (alpha == null) {
+			throw new IllegalArgumentException("Alpha_is_null");
+		}
+
+		alpha.linkedBalls.remove(this);
+		linkedAlphas.remove(alpha);
 	}
 
 	/**
@@ -155,6 +208,32 @@ public abstract class Ball {
 	 * @post | result.getVelocity().equals(v)
 	 */
 	public abstract Ball cloneWithVelocity(Vector v);
+
+	/**
+	 * Set the center to a new location on the grid.
+	 *
+	 * @mutates this
+	 *
+	 * @pre | location != null
+	 *
+	 * @post | location == getLocation()
+	 */
+	public void setLocation(Circle location) {
+		this.location = location;
+	}
+
+	/**
+	 * Change the ball's velocity.
+	 *
+	 * @mutates this
+	 *
+	 * @pre | velocity != null
+	 *
+	 * @post | velocity == getVelocity()
+	 */
+	public void setVelocity(Vector velocity) {
+		this.velocity = velocity;
+	}
 	
 	/**
 	 * Return a clone of this BallState.

@@ -15,7 +15,6 @@ import utils.Vector;
 
 //No documentation required for this class
 public class BreakoutFacade {
-	
 	public PaddleState createNormalPaddleState(Point center) {
 		return new NormalPaddleState(center);
 	}
@@ -127,85 +126,82 @@ public class BreakoutFacade {
 	 * the peer references.)
 	 */
 	public Set<Ball> getBalls(Alpha alpha) {
-		return null;
+		return Alpha.getLinkedBalls();
 	}
 	
 	public Set<Alpha> getAlphas(Ball ball) {
-		return null;
+		return Ball.getLinkedAlphas();
 	}
 	
 	/**
 	 * note: re-adding a link does nothing
 	 */
 	public void addLink(Ball ball, Alpha alpha) {
-
+		ball.addLink(alpha);
 	}
 	
 	/**
 	 * note: re-removing a link does nothing.
 	 */
 	public void removeLink(Ball ball, Alpha alpha) {
-
+		ball.removeLink(alpha);
 	}
 	
 	/**
 	 * should be in constant time (forwarding private charge)
 	 */
 	public int getEcharge(Ball ball) {
-		return 0; //TODO
+		return ball.getEcharge();
 	}
 	
 	/**
 	 * mutates the position and diam of ball
 	 */
 	public void setLocation(Ball ball, Point center, int diam) {
-
+		ball.setLocation(new Circle(center, diam));
 	}
 	
 	public void setLocation(Alpha alpha, Point center, int diam) {
-
+		alpha.setLocation(new Circle(center, diam));
 	}
 
 	/**
 	 * mutates the velocity of ball
 	 */
 	public void setSpeed(Ball ball, Vector speed) {
-
+		ball.setVelocity(speed);
 	}
 	
 	public void setSpeed(Alpha alpha, Vector speed) {
-
+		alpha.setVelocity(speed);
 	}
-	
 
 	public Vector getVelocity(Ball ball) {
-		return null;
+		return ball.getVelocity();
 	}
 	
 	public Vector getVelocity(Alpha alpha) {
-		return null;
+		return alpha.getVelocity();
 	}
 	
 	public void hitBlock(Ball ball, Rect rect, boolean destroyed) {
-
+		ball.hitBlock(rect, destroyed);
 	}
-	
 
-	
 	public BlockState[] getBlocks(BreakoutState state) {
-		return null;
+		return state.getBlocks();
 	}
 	
 	public Point getBottomRight(BreakoutState state) {
-		return null;
+		return state.getBottomRight();
 	}
 	
 	public PaddleState getPaddle(BreakoutState state) {
-		return null;
+		return state.getPaddle();
 	}
 	
 	public void tick(BreakoutState state, int paddleDir, int elapsedTime) {
-
+		state.tick(paddleDir, elapsedTime);
 	}
 	
 	public void tickDuring(BreakoutState state, int elapsedTime) {
@@ -218,11 +214,11 @@ public class BreakoutFacade {
 	}
 	
 	public boolean isWon(BreakoutState state) {
-		return true; //TODO
+		return state.isWon();
 	}
 	
 	public boolean isDead(BreakoutState state) {
-		return true; //TODO
+		return state.isDead();
 	}
 	
 	//for GameMap
@@ -267,23 +263,18 @@ public class BreakoutFacade {
 	}
 	
 	public void movePaddleRight(BreakoutState state, int elapsedTime) {
-
+		state.movePaddleRight(elapsedTime);
 	}
 	
 	public void movePaddleLeft(BreakoutState state, int elapsedTime) {
-
+		state.movePaddleLeft(elapsedTime);
 	}
 	
 	public boolean collidesWith(Ball ball, Rect rect) {
-		return true; //TODO
+		return ball.collidesWith(rect);
 	}
 	
 	public boolean collidesWith(Alpha alpha, Rect rect) {
-		return true; //TODO
+		return alpha.collidesWith(rect);
 	}
-	
-	
-	
-	
 }
-
