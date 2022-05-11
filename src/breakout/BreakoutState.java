@@ -235,7 +235,6 @@ public class BreakoutState {
 
 	private void collideBallPaddle(Ball ball, Vector paddleVel) {
 		if (ball.collidesWith(paddle.getLocation())) {
-			paddle = paddle.stateAfterHit();
 			ball.hitPaddle(paddle.getLocation(),paddleVel);
 			int nrBalls = paddle.numberOfBallsAfterHit();
 			if(nrBalls > 1) {
@@ -249,6 +248,7 @@ public class BreakoutState {
 					balls[curballs.length + i -1] = ball.cloneWithVelocity(nballVel);					
 				}
 			}
+			paddle = paddle.stateAfterHit();
 		}
 	}
 
