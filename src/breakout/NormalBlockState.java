@@ -1,6 +1,8 @@
 package breakout;
 
 import java.awt.Color;
+import utils.Rect;
+import radioactivity.Ball;
 
 public class NormalBlockState extends BlockState {
 

@@ -1,7 +1,14 @@
-package breakout;
+package radioactivity;
 
 import java.awt.Color;
 import java.util.Objects;
+import java.util.Set;
+
+import utils.Point;
+import utils.Circle;
+import utils.Rect;
+import utils.Vector;
+import breakout.BreakoutState;
 
 /**
  * Represents the state of a ball in the breakout game.
@@ -10,6 +17,12 @@ import java.util.Objects;
  * @invar | getVelocity() != null
  */
 public abstract class Ball {
+	
+	int eCharge;
+    /**
+     * @peerObjects
+     */
+    Set<Alpha> linkedAlphas;
 
 	protected Circle location;
 	protected Vector velocity;

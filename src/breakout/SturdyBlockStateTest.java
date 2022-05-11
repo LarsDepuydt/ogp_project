@@ -6,6 +6,12 @@ import java.awt.Color;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.Point;
+import utils.Circle;
+import utils.Rect;
+import utils.Vector;
+import radioactivity.Ball;
+import radioactivity.NormalBall;
 
 class SturdyBlockStateTest {
 	Point p11;

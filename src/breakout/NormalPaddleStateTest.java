@@ -1,6 +1,9 @@
 package breakout;
 
 import static org.junit.jupiter.api.Assertions.*;
+import utils.Point;
+import utils.Rect;
+import utils.Vector;
 
 import java.awt.Color;
 

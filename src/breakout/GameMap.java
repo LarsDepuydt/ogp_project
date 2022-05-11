@@ -1,6 +1,9 @@
 package breakout;
 
 import java.util.ArrayList;
+import utils.Point;
+import utils.Vector;
+import radioactivity.Ball;
 
 public class GameMap {
 

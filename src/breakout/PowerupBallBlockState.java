@@ -1,6 +1,10 @@
 package breakout;
 
 import java.awt.Color;
+import utils.Rect;
+import radioactivity.Ball;
+import radioactivity.SuperChargedBall;
+
 
 public class PowerupBallBlockState extends NormalBlockState {
 

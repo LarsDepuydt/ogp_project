@@ -2,12 +2,19 @@ package breakout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import utils.Point;
+import utils.Circle;
+import utils.Rect;
+import utils.Vector;
+import radioactivity.Alpha;
+import radioactivity.Ball;
 
 //import breakout.gui.GameView;
 
 /**
  * Represents the current state of a breakout game.
  * 
+ * @invar | getAlphas() != null
  * @invar | getBalls() != null
  * @invar | getBlocks() != null
  * @invar | getPaddle() != null
@@ -18,16 +25,24 @@ import java.util.Arrays;
  */
 public class BreakoutState {
 
-	private static final Vector PADDLE_VEL = new Vector(10, 0);
+	private static final Vector PADDLE_VEL = new Vector(20, 0);
 	public static final int MAX_BALL_REPLICATE = 5;
 	private static final Vector[] BALL_VEL_VARIATIONS = new Vector[] { new Vector(0, 0), new Vector(2, -2),
 			new Vector(-2, 2), new Vector(2, 2), new Vector(-2, -2) };
 	public static int MAX_ELAPSED_TIME = 50;
+
 	/**
 	 * @invar | bottomRight != null
 	 * @invar | Point.ORIGIN.isUpAndLeftFrom(bottomRight)
 	 */
 	private final Point bottomRight;
+	/**
+	 * @invar | alphas != null
+	 * @invar | Arrays.stream(alphas).allMatch(b -> getFieldInternal().contains(b.getLocation()))
+	 * @representationObject
+	 * @representationObjects Each alpha is a representation object
+	 */
+	private Alpha[] alphas;
 	/**
 	 * @invar | balls != null
 	 * @invar | Arrays.stream(balls).allMatch(b -> getFieldInternal().contains(b.getLocation()))
@@ -102,7 +117,85 @@ public class BreakoutState {
 		this.leftWall = new Rect(new Point(-1000, 0), new Point(0, bottomRight.getY()));
 		this.walls = new Rect[] { topWall, rightWall, leftWall };
 	}
+	
+	/**
+	 * Construct a new BreakoutState with the given alpha's, balls, blocks, paddle.
+	 * 
+	 * @throws illegalArgumentException | alphas == null
+	 * @throws IllegalArgumentException | balls == null
+	 * @throws IllegalArgumentException | blocks == null
+	 * @throws IllegalArgumentException | bottomRight == null
+	 * @throws IllegalArgumentException | paddle == null
+	 * @throws IllegalArgumentException | !Point.ORIGIN.isUpAndLeftFrom(bottomRight)
+	 * @throws IllegalArgumentException | !(new Rect(Point.ORIGIN,bottomRight)).contains(paddle.getLocation())
+	 * @throws IllegalArgumentException | !Arrays.stream(blocks).allMatch(b -> (new Rect(Point.ORIGIN,bottomRight)).contains(b.getLocation()))
+	 * @throws IllegalArgumentException | !Arrays.stream(balls).allMatch(b -> (new Rect(Point.ORIGIN,bottomRight)).contains(b.getLocation()))
+	 * @throws illegalArgumentException | !Arrays.stream(alphas).allMatch(b -> (new Rect(Point.ORIGIN,bottomRight)).contains(b.getLocation())) 
+	 * @post | Arrays.equals(getBalls(),balls)
+	 * @post | Arrays.equals(getAlphas(),alphas)
+	 * @post | Arrays.equals(getBlocks(),blocks)
+	 * @post | getBottomRight().equals(bottomRight)
+	 * @post | getPaddle().equals(paddle)
+	 */
+	public BreakoutState(Alpha[] alphas, Ball[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
+		if (alphas == null)
+			throw new IllegalArgumentException();
+		if (balls == null)
+			throw new IllegalArgumentException();
+		if (blocks == null)
+			throw new IllegalArgumentException();
+		if (bottomRight == null)
+			throw new IllegalArgumentException();
+		if (paddle == null)
+			throw new IllegalArgumentException();
 
+		if (!Point.ORIGIN.isUpAndLeftFrom(bottomRight))
+			throw new IllegalArgumentException();
+		this.bottomRight = bottomRight;
+		if (!getFieldInternal().contains(paddle.getLocation()))
+			throw new IllegalArgumentException();
+		if (!Arrays.stream(blocks).allMatch(b -> getFieldInternal().contains(b.getLocation())))
+			throw new IllegalArgumentException();
+		if (!Arrays.stream(balls).allMatch(b -> getFieldInternal().contains(b.getLocation())))
+			throw new IllegalArgumentException();
+		
+		// alphas.clone() does a shallow copy by default
+		this.alphas = new Alpha[alphas.length];
+		for(int i = 0; i < alphas.length; ++i) {
+			this.alphas[i] = alphas[i].clone();
+		}
+		
+		// balls.clone() does a shallow copy by default
+		this.balls = new Ball[balls.length];
+		for(int i = 0; i < balls.length; ++i) {
+			this.balls[i] = balls[i].clone();
+		}
+		
+		this.blocks = blocks.clone();
+		this.paddle = paddle;
+
+		this.topWall = new Rect(new Point(0, -1000), new Point(bottomRight.getX(), 0));
+		this.rightWall = new Rect(new Point(bottomRight.getX(), 0),
+				new Point(bottomRight.getX() + 1000, bottomRight.getY()));
+		this.leftWall = new Rect(new Point(-1000, 0), new Point(0, bottomRight.getY()));
+		this.walls = new Rect[] { topWall, rightWall, leftWall };
+	}
+	
+	/**
+	 * Return the alpha's of this BreakoutState.
+	 *
+	 * @creates result
+     * @creates ...result
+	 */
+	public Alpha[] getAlphas() {
+		Alpha[] res = new Alpha[alphas.length];
+		for (int i = 0 ; i < balls.length ; ++i) {
+			res[i] = alphas[i].clone();
+		}
+		return res;
+//		return balls.clone();
+	}
+	
 	/**
 	 * Return the balls of this BreakoutState.
 	 *

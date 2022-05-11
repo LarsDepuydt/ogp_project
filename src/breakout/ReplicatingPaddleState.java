@@ -1,6 +1,9 @@
 package breakout;
 
 import java.awt.Color;
+import utils.Point;
+import utils.Rect;
+import utils.Vector;
 
 public class ReplicatingPaddleState extends PaddleState {
 	private int count;
