@@ -14,7 +14,7 @@ public class Alpha {
 	/**
      * @peerObjects
      */
-    Set<Ball> linkedBalls;
+    Set<Ball> linkedBalls = new HashSet<Ball>();
 	
 	protected Circle location;
 	protected Vector velocity;
@@ -40,7 +40,8 @@ public class Alpha {
 	 * @peerObjects
 	 */
 	public Set<Ball> getLinkedBalls() {
-		return Set.copyOf(linkedBalls);
+//		return Set.copyOf(linkedBalls);
+		return linkedBalls;
 	}
 	
 	/**

@@ -191,12 +191,18 @@ public class BreakoutState {
      * @creates ...result
 	 */
 	public Alpha[] getAlphas() {
-		Alpha[] res = new Alpha[alphas.length];
-		for (int i = 0 ; i < balls.length ; ++i) {
-			res[i] = alphas[i].clone();
+
+		if (alphas == null) {
+			return new Alpha[0];
 		}
-		return res;
-//		return balls.clone();
+		return alphas;
+//
+//		Alpha[] res = new Alpha[alphas.length];
+//		for (int i = 0 ; i < balls.length ; ++i) {
+//			res[i] = alphas[i].clone();
+//		}
+//		return res;
+////		return balls.clone();
 	}
 	
 	/**
@@ -206,12 +212,13 @@ public class BreakoutState {
      * @creates ...result
 	 */
 	public Ball[] getBalls() {
-		Ball[] res = new Ball[balls.length];
-		for (int i = 0 ; i < balls.length ; ++i) {
-			res[i] = balls[i].clone();
-		}
-		return res;
-//		return balls.clone();
+		return balls;
+//		Ball[] res = new Ball[balls.length];
+//		for (int i = 0 ; i < balls.length ; ++i) {
+//			res[i] = balls[i].clone();
+//		}
+//		return res;
+////		return balls.clone();
 	}
 
 	/**
@@ -384,8 +391,7 @@ public class BreakoutState {
 			
 			Alpha createdAlpha = new Alpha(ball.getLocation(),ball.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
 			ball.addLink(createdAlpha);
-			createdAlpha.addLink(ball);
-			
+			System.out.println(ball.getLinkedAlphas());
 		}
 	}
 	

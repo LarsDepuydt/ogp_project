@@ -23,7 +23,7 @@ public abstract class Ball {
     /**
      * @peerObjects
      */
-    Set<Alpha> linkedAlphas;
+    Set<Alpha> linkedAlphas = new HashSet<Alpha>();
 
 	protected Circle location;
 	protected Vector velocity;
@@ -63,7 +63,8 @@ public abstract class Ball {
 	 * @peerObjects
 	 */
 	public Set<Alpha> getLinkedAlphas() {
-		return Set.copyOf(linkedAlphas);
+//		return Set.copyOf(linkedAlphas);
+		return linkedAlphas;
 	}
 
 	/**
@@ -80,14 +81,6 @@ public abstract class Ball {
 	public void addLink(Alpha alpha) {
 		if (alpha == null) {
 			throw new IllegalArgumentException("Alpha_is_null");
-		}
-		
-		if (linkedAlphas == null) {
-			linkedAlphas = new HashSet<Alpha>();
-		}
-		
-		if (alpha.linkedBalls == null) {
-			alpha.linkedBalls = new HashSet<Ball>();
 		}
 
 		linkedAlphas.add(alpha);
