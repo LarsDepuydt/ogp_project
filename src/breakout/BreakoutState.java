@@ -8,13 +8,14 @@ import utils.Rect;
 import utils.Vector;
 import radioactivity.Alpha;
 import radioactivity.Ball;
+import radioactivity.NormalBall;
 
 //import breakout.gui.GameView;
 
 /**
  * Represents the current state of a breakout game.
  * 
- * @invar | getAlphas() != null
+ * invar | getAlphas() != null
  * @invar | getBalls() != null
  * @invar | getBlocks() != null
  * @invar | getPaddle() != null
@@ -37,7 +38,7 @@ public class BreakoutState {
 	 */
 	private final Point bottomRight;
 	/**
-	 * @invar | alphas != null
+	 * invar | alphas != null
 	 * @invar | Arrays.stream(alphas).allMatch(b -> getFieldInternal().contains(b.getLocation()))
 	 * @representationObject
 	 * @representationObjects Each alpha is a representation object
@@ -138,8 +139,8 @@ public class BreakoutState {
 	 * @post | getPaddle().equals(paddle)
 	 */
 	public BreakoutState(Alpha[] alphas, Ball[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
-		if (alphas == null)
-			throw new IllegalArgumentException();
+		//if (alphas == null)
+			//throw new IllegalArgumentException();
 		if (balls == null)
 			throw new IllegalArgumentException();
 		if (blocks == null)
@@ -159,10 +160,12 @@ public class BreakoutState {
 		if (!Arrays.stream(balls).allMatch(b -> getFieldInternal().contains(b.getLocation())))
 			throw new IllegalArgumentException();
 		
-		// alphas.clone() does a shallow copy by default
-		this.alphas = new Alpha[alphas.length];
-		for(int i = 0; i < alphas.length; ++i) {
-			this.alphas[i] = alphas[i].clone();
+		if (alphas != null) {
+			// alphas.clone() does a shallow copy by default
+			this.alphas = new Alpha[alphas.length];
+			for(int i = 0; i < alphas.length; ++i) {
+				this.alphas[i] = alphas[i].clone();
+			}
 		}
 		
 		// balls.clone() does a shallow copy by default
@@ -259,15 +262,33 @@ public class BreakoutState {
 			}
 		}
 	}
+	
+	private void bounceWalls(Alpha alpha) {
+		for (Rect wall : walls) {
+			if (alpha.collidesWith(wall)) {
+				alpha.hitWall(wall);
+			}
+		}
+	}
 
 	private Ball removeDead(Ball ball) {
 		if( ball.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { return null; }
 		else { return ball; }
 	}
+	
+	private Alpha removeDead(Alpha alpha) {
+		if( alpha.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { return null; }
+		else { return alpha; }
+	}
 
 	private void clampBall(Ball b) {
 		Circle loc = getFieldInternal().constrain(b.getLocation());
 	    b.move(loc.getCenter().minus(b.getLocation().getCenter()),0);
+	}
+	
+	private void clampAlpha(Alpha a) {
+		Circle loc = getFieldInternal().constrain(a.getLocation());
+		a.move(loc.getCenter().minus(a.getLocation().getCenter()),0);
 	}
 	
 	private Ball collideBallBlocks(Ball ball) {
@@ -310,12 +331,20 @@ public class BreakoutState {
 	 */
 	public void tick(int paddleDir, int elapsedTime) {
 		stepBalls(elapsedTime);
+		stepAlphas(elapsedTime);
 		bounceBallsOnWalls();
+		bounceAlphasonWalls();
 		removeDeadBalls();
+		removeDeadAlphas();
 		bounceBallsOnBlocks();
 		bounceBallsOnPaddle(paddleDir);
+		bounceAlphasOnPaddle(paddleDir);
 		clampBalls();
+		clampAlphas();
 		balls = Arrays.stream(balls).filter(x -> x != null).toArray(Ball[]::new);
+		if (alphas != null) {
+			alphas = Arrays.stream(alphas).filter(x -> x != null).toArray(Alpha[]::new);
+		}
 	}
 
 	private void clampBalls() {
@@ -323,6 +352,16 @@ public class BreakoutState {
 			if(balls[i] != null) {
 				clampBall(balls[i]);
 			}		
+		}
+	}
+	
+	private void clampAlphas() {
+		if (alphas != null) {
+			for(int i = 0; i < alphas.length; ++i) {
+				if(alphas[i] != null) {
+					clampAlpha(alphas[i]);
+				}		
+			}
 		}
 	}
 
@@ -342,7 +381,22 @@ public class BreakoutState {
 				}
 			}
 			paddle = paddle.stateAfterHit();
+			
+			Alpha createdAlpha = new Alpha(ball.getLocation(),ball.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
+			ball.addLink(createdAlpha);
+			createdAlpha.addLink(ball);
+			
 		}
+	}
+	
+	private void collideAlphaPaddle(Alpha alpha, Vector paddleVel) {
+		if (alpha.collidesWith(paddle.getLocation())) {
+			alpha.hitPaddle(paddle.getLocation(), paddleVel);
+		}
+		
+		Ball createdBall = new NormalBall(alpha.getLocation(),alpha.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
+		alpha.addLink(createdBall);
+		createdBall.addLink(alpha);
 	}
 
 	private void bounceBallsOnPaddle(int paddleDir) {
@@ -351,6 +405,18 @@ public class BreakoutState {
 		for(int i = 0; i < balls.length; ++i) {
 			if(balls[i] != null) {
 				collideBallPaddle(balls[i], paddleVel);
+			}
+		}
+	}
+	
+	private void bounceAlphasOnPaddle(int paddleDir) {
+		if (alphas != null) {
+			Vector paddleVel = PADDLE_VEL.scaled(paddleDir);
+			Alpha[] alphas = this.alphas;
+			for (int i = 0; i < alphas.length; ++i) {
+				if(alphas[i] != null) {
+					collideAlphaPaddle(alphas[i], paddleVel);
+				}
 			}
 		}
 	}
@@ -368,16 +434,40 @@ public class BreakoutState {
 			balls[i] = removeDead(balls[i]);
 		}
 	}
+	
+	private void removeDeadAlphas() {
+		if (alphas != null) {
+			for(int i = 0; i < alphas.length; ++i) {
+				alphas[i] = removeDead(alphas[i]);
+			}
+		}
+	}
 
 	private void bounceBallsOnWalls() {
 		for(int i = 0; i < balls.length; ++i) {
 			bounceWalls(balls[i]);
 		}
 	}
+	
+	private void bounceAlphasonWalls() {
+		if (alphas != null) {
+			for (int i = 0; i < alphas.length; ++i) {
+				bounceWalls(alphas[i]);
+			}
+		}
+	}
 
 	private void stepBalls(int elapsedTime) {
 		for(int i = 0; i < balls.length; ++i) {
 			balls[i].move(balls[i].getVelocity().scaled(elapsedTime), elapsedTime);
+		}
+	}
+	
+	private void stepAlphas(int elapsedTime) {
+		if (alphas != null) {
+			for(int i = 0; i < alphas.length; ++i) {
+				alphas[i].move(alphas[i].getVelocity().scaled(elapsedTime), elapsedTime);
+			}
 		}
 	}
 	/**

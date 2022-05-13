@@ -1,6 +1,7 @@
 package radioactivity;
 
 import java.awt.Color;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -68,17 +69,25 @@ public abstract class Ball {
 	/**
 	 * Add a link between a ball and an alpha particle
 	 *
-	 * @throws IllegalArgumentException if {@code alpha} is null
+	 * throws IllegalArgumentException if {@code alpha} is null
 	 * 	| alpha == null
 	 *
-	 * @mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
+	 * mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
 	 *
-	 * @post The given linked alpha particles equal the old linked alpha particles plus this alpha particle
-	 * 	| alpha.getBalls().equals(Set.plus(old(linkedAlphas.getBalls()), this))
+	 * post The given linked alpha particles equal the old linked alpha particles plus this alpha particle
+	 * 	| alpha.getLinkedBalls().equals(Set.plus(old(linkedAlphas.getLinkedBalls()), this))
 	 */
 	public void addLink(Alpha alpha) {
 		if (alpha == null) {
 			throw new IllegalArgumentException("Alpha_is_null");
+		}
+		
+		if (linkedAlphas == null) {
+			linkedAlphas = new HashSet<Alpha>();
+		}
+		
+		if (alpha.linkedBalls == null) {
+			alpha.linkedBalls = new HashSet<Ball>();
 		}
 
 		linkedAlphas.add(alpha);
@@ -88,15 +97,15 @@ public abstract class Ball {
 	/**
 	 * Removes a given alpha particle from the linked alpha particles
 	 *
-	 * @throws IllegalArgumentException if {@code alpha} is null
+	 * throws IllegalArgumentException if {@code alpha} is null
 	 * 	 | alpha == null
 	 *
-	 * @mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
+	 * mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
 	 *
-	 * @post This ball is no longer linked to the alpha particle
-	 * 	| getLinkedAlphas().equals(Set.minus(old(getLinkedAlphas()), alpha)
-	 * @post This alpha particles old linked balls are its old linked balls minus this ball
-	 * 	| getLinkedAlphas().getLinkedBalls().equals(Set.minus(old(getLinkedAlphas().getLinkedBalls()), this)
+	 * post This alpha is no longer linked to the ball particle
+	 * 	| getLinkedAlphas().equals(Set.minus(old(getLinkedAlphas()), alpha))
+	 * post This Ball particles old linked alphas are its old linked alphas minus this alpha
+	 * 	| getLinkedBalls().getLinkedAlphas().equals(Set.minus(old(getLinkedBalls().getLinkedZAlphas()), alpha))
 	 */
 	public void removeLink(Alpha alpha) {
 		if (alpha == null) {

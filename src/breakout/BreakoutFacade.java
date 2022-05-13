@@ -126,11 +126,11 @@ public class BreakoutFacade {
 	 * the peer references.)
 	 */
 	public Set<Ball> getBalls(Alpha alpha) {
-		return Alpha.getLinkedBalls();
+		return alpha.getLinkedBalls();
 	}
 	
 	public Set<Alpha> getAlphas(Ball ball) {
-		return Ball.getLinkedAlphas();
+		return ball.getLinkedAlphas();
 	}
 	
 	/**
@@ -278,3 +278,4 @@ public class BreakoutFacade {
 		return alpha.collidesWith(rect);
 	}
 }
+
