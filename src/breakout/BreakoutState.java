@@ -288,7 +288,12 @@ public class BreakoutState {
 	}
 	
 	private Alpha removeDead(Alpha alpha) {
-		if( alpha.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { return null; }
+		if( alpha.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { 
+			for (Ball ball : alpha.getLinkedBalls()) {
+				alpha.removeLink(ball);
+			}
+			return null; 
+			}
 		else { return alpha; }
 	}
 
