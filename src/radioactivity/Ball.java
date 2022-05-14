@@ -19,7 +19,7 @@ import breakout.BreakoutState;
  */
 public abstract class Ball {
 	
-	private int eCharge = 1;
+	private int eCharge = -2;
     /**
      * @peerObjects
      */

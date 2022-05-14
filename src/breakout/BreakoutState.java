@@ -270,10 +270,14 @@ public class BreakoutState {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	private void bounceWalls(Alpha alpha) {
 		for (Rect wall : walls) {
 			if (alpha.collidesWith(wall)) {
 				alpha.hitWall(wall);
+				for (Ball ball : alpha.getLinkedBalls()) {
+					ball.setVelocity(ball.getVelocity().magnetSpeed(alpha.getLocation().getCenter(), ball.getLocation().getCenter(), ball.getEcharge(), ball.getVelocity()));
+				}
 			}
 		}
 	}
@@ -391,18 +395,35 @@ public class BreakoutState {
 			
 			Alpha createdAlpha = new Alpha(ball.getLocation(),ball.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
 			ball.addLink(createdAlpha);
-			System.out.println(ball.getLinkedAlphas());
+			
+			if (alphas == null) {
+				alphas = new Alpha[1];
+				alphas[0] = createdAlpha;
+			}
+			else {
+				Alpha[] newalphas = alphas;
+				alphas = new Alpha[newalphas.length + 1];
+				for (int i = 0; i < newalphas.length;++i) {
+					alphas[i] = newalphas[i];
+				}
+				alphas[newalphas.length] = createdAlpha;
+			}
 		}
 	}
 	
 	private void collideAlphaPaddle(Alpha alpha, Vector paddleVel) {
 		if (alpha.collidesWith(paddle.getLocation())) {
 			alpha.hitPaddle(paddle.getLocation(), paddleVel);
+			Ball createdBall = new NormalBall(alpha.getLocation(),alpha.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
+			alpha.addLink(createdBall);
+			
+			Ball[] newballs = balls;
+			balls = new Ball[newballs.length + 1];
+			for (int i = 0; i < newballs.length;++i) {
+				balls[i] = newballs[i];
+			}
+			balls[newballs.length] = createdBall;
 		}
-		
-		Ball createdBall = new NormalBall(alpha.getLocation(),alpha.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
-		alpha.addLink(createdBall);
-		createdBall.addLink(alpha);
 	}
 
 	private void bounceBallsOnPaddle(int paddleDir) {

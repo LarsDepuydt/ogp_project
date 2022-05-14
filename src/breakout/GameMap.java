@@ -1,11 +1,9 @@
 package breakout;
 
-
 import java.util.ArrayList;
-
-import radioactivity.Ball;
 import utils.Point;
 import utils.Vector;
+import radioactivity.Ball;
 
 public class GameMap {
 
@@ -17,17 +15,6 @@ public class GameMap {
 	private static final Vector INIT_BALL_VELOCITY = new Vector(4, 5);
 	private static BreakoutFacade facade = new BreakoutFacade();
 
-	private static final String someMap = """
-##########
-###!######
-##########
-SSS!###!#S
-     o
-
-     =
-
-""";
-
 	private GameMap() {
 		throw new AssertionError("This class is not intended to be instantiated");
 	}
@@ -38,16 +25,16 @@ SSS!###!#S
 		Point blockTL = bottomLeft.plus(marginBL);
 		Point blockBR = blockTL.plus(size);
 		switch (type) {
-			case '#':
-				return facade.createNormalBlockState(blockTL, blockBR);
-			case 'S':
-				return facade.createSturdyBlockState(blockTL, blockBR, 3);
-			case 'R':
-				return facade.createReplicatorBlockState(blockTL, blockBR);
-			case '!':
-				return facade.createPowerupBallBlockState(blockTL, blockBR);
-			default:
-				return null;
+		case '#':
+			return facade.createNormalBlockState(blockTL, blockBR);
+		case 'S':
+			return facade.createSturdyBlockState(blockTL, blockBR, 3);
+		case 'R':
+			return facade.createReplicatorBlockState(blockTL, blockBR);
+		case '!':
+			return facade.createPowerupBallBlockState(blockTL, blockBR);
+		default:
+			return null;
 		}
 	}
 
@@ -66,7 +53,7 @@ SSS!###!#S
 
 	/**
 	 * Return the initial breakout state represented by string `description`.
-	 *
+	 * 
 	 * @pre | description != null
 	 * @post | result != null
 	 */
@@ -86,24 +73,24 @@ SSS!###!#S
 			Point cursor = topLeft;
 			for (char c : line.toCharArray()) {
 				switch (c) {
-					case '#':
-						blocks.add(createBlock(cursor, '#'));
-						break;
-					case 'S':
-						blocks.add(createBlock(cursor, 'S'));
-						break;
-					case 'R':
-						blocks.add(createBlock(cursor, 'R'));
-						break;
-					case '!':
-						blocks.add(createBlock(cursor, '!'));
-						break;
-					case 'o':
-						balls.add(createBall(cursor));
-						break;
-					case '=':
-						paddle = createPaddle(cursor);
-						break;
+				case '#':
+					blocks.add(createBlock(cursor, '#'));
+					break;
+				case 'S':
+					blocks.add(createBlock(cursor, 'S'));
+					break;
+				case 'R':
+					blocks.add(createBlock(cursor, 'R'));
+					break;
+				case '!':
+					blocks.add(createBlock(cursor, '!'));
+					break;
+				case 'o':
+					balls.add(createBall(cursor));
+					break;
+				case '=':
+					paddle = createPaddle(cursor);
+					break;
 				}
 				cursor = cursor.plus(unitVecRight);
 			}
