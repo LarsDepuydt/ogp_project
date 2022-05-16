@@ -66,60 +66,8 @@ public class Alpha {
 //		return Set.copyOf(linkedBalls);
 		return linkedBalls;
 	}
-	
-	/**
-	 * Add a link between a ball and an alpha particle
-	 *
-	 * throws IllegalArgumentException if {@code ball} is null
-	 * 	| ball == null
-	 *
-	 * mutates_properties | this.getLinkedBalls(), ball.getLinkedAlphas()
-	 *
-	 * post The given linked ball particles equal the old linked ball particles plus this ball particle
-	 * 	| alpha.getLinkedBalls().equals(Set.plus(old(linkedAlphas.getLinkedBalls()), this))
-	 */
-	public void addLink(Ball ball) {
-		if (ball == null) {
-			throw new IllegalArgumentException("Ball_is_null");
-		}
-		
-		if (linkedBalls == null) {
-			linkedBalls = new HashSet<Ball>();
-		}
-		
-		if (ball.linkedAlphas == null) {
-			ball.linkedAlphas = new HashSet<Alpha>();
-		}
-
-		linkedBalls.add(ball);
-		ball.linkedAlphas.add(this);
-	}
-	
-	/**
-	 * Removes a given ball particle from the linked ball particles
-	 *
-	 * throws IllegalArgumentException if {@code ball} is null
-	 * 	 | ball == null
-	 *
-	 * mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
-	 *
-	 * post This ball is no longer linked to the alpha particle
-	 * 	| getLinkedBalls().equals(Set.minus(old(getLinkedBalls()), ball))
-	 * post This alpha particles old linked balls are its old linked balls minus this ball
-	 * 	| getLinkedAlphas().getLinkedBalls().equals(Set.minus(old(getLinkedAlphas().getLinkedBalls()), ball))
-	 */
-	public void removeLink(Ball ball) {
-		if (ball == null) {
-			throw new IllegalArgumentException("Alpha_is_null");
-		}
-
-		ball.linkedAlphas.remove(this);
-		linkedBalls.remove(ball);
-	}
 
 	/**
-	 * TODO: just a copy of ball, must not bounce on blocks
-	 *
 	 * Check whether this ball collides with a given `rect`.
 	 *
 	 * @pre | rect != null

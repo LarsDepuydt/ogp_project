@@ -291,7 +291,7 @@ public class BreakoutState {
 	private Alpha removeDead(Alpha alpha) {
 		if( alpha.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { 
 			for (Ball ball : alpha.getLinkedBalls()) {
-				alpha.removeLink(ball);
+				ball.removeLink(alpha);
 			}
 			return null; 
 			}
@@ -421,7 +421,7 @@ public class BreakoutState {
 		if (alpha.collidesWith(paddle.getLocation())) {
 			alpha.hitPaddle(paddle.getLocation(), paddleVel);
 			Ball createdBall = new NormalBall(alpha.getLocation(),alpha.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
-			alpha.addLink(createdBall);
+			createdBall.addLink(alpha);
 			
 			Ball[] newballs = balls;
 			balls = new Ball[newballs.length + 1];
