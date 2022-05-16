@@ -15,7 +15,7 @@ import radioactivity.NormalBall;
 /**
  * Represents the current state of a breakout game.
  * 
- * invar | getAlphas() != null
+ * @invar | getAlphas() != null
  * @invar | getBalls() != null
  * @invar | getBlocks() != null
  * @invar | getPaddle() != null
@@ -38,7 +38,7 @@ public class BreakoutState {
 	 */
 	private final Point bottomRight;
 	/**
-	 * invar | alphas != null
+	 * @invar | alphas != null
 	 * @invar | Arrays.stream(alphas).allMatch(b -> getFieldInternal().contains(b.getLocation()))
 	 * @representationObject
 	 * @representationObjects Each alpha is a representation object
@@ -139,8 +139,8 @@ public class BreakoutState {
 	 * @post | getPaddle().equals(paddle)
 	 */
 	public BreakoutState(Alpha[] alphas, Ball[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
-		//if (alphas == null)
-			//throw new IllegalArgumentException();
+		if (alphas == null)
+			throw new IllegalArgumentException();
 		if (balls == null)
 			throw new IllegalArgumentException();
 		if (blocks == null)
@@ -160,12 +160,12 @@ public class BreakoutState {
 		if (!Arrays.stream(balls).allMatch(b -> getFieldInternal().contains(b.getLocation())))
 			throw new IllegalArgumentException();
 		
-		if (alphas != null) {
-			// alphas.clone() does a shallow copy by default
-			this.alphas = new Alpha[alphas.length];
-			for(int i = 0; i < alphas.length; ++i) {
-				this.alphas[i] = alphas[i].clone();
-			}
+	
+		
+		// alphas.clone() does a shallow copy by default
+		this.alphas = new Alpha[0];
+		for(int i = 0; i < alphas.length; ++i) {
+			this.alphas[i] = alphas[i].clone();	
 		}
 		
 		// balls.clone() does a shallow copy by default
@@ -276,6 +276,7 @@ public class BreakoutState {
 			if (alpha.collidesWith(wall)) {
 				alpha.hitWall(wall);
 				for (Ball ball : alpha.getLinkedBalls()) {
+					ball.calculateCharge();
 					ball.setVelocity(ball.getVelocity().magnetSpeed(alpha.getLocation().getCenter(), ball.getLocation().getCenter(), ball.getEcharge(), ball.getVelocity()));
 				}
 			}

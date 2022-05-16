@@ -7,6 +7,12 @@ import utils.Circle;
 import utils.Rect;
 import utils.Vector;
 
+/**
+ * Represents the state of an alphaa particle in the breakout game.
+ * 
+ * @invar | getLocation() != null
+ * @invar | getVelocity() != null
+ */
 public class Alpha {
 	
 	private static final Color ALPHA_COLOR = Color.blue;
@@ -19,19 +25,36 @@ public class Alpha {
 	protected Circle location;
 	protected Vector velocity;
 	
+	/**
+	 * Construct a new alpha particle at a given `location`, with a given `velocity`.
+	 * 
+	 * @pre | location != null
+	 * @pre | velocity != null
+	 * @post | getLocation().equals(location)
+	 * @post | getVelocity().equals(velocity)
+	 */
 	public Alpha(Circle location, Vector velocity) {
 		this.location = location;
 		this.velocity = velocity;
 	}
 	
+	/**
+	 * Return this alpha's location
+	 */
 	public Circle getLocation() {
 		return location;
 	}
 	
+	/**
+	 * Return this alpha's velocity
+	 */
 	public Vector getVelocity() {
 		return velocity;
 	}
 	
+	/**
+	 * Return this alpha's color
+	 */
 	public Color getColor() {
 		return ALPHA_COLOR;
 	}

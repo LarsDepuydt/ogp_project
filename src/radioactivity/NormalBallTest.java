@@ -7,6 +7,8 @@ import utils.Rect;
 import utils.Vector;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,7 @@ class NormalBallTest {
 	Circle c052;
 	Circle c389;
 	Ball b1;
+	Alpha a1;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -38,6 +41,7 @@ class NormalBallTest {
 		c389 = new Circle(p38, 9);
 		v1010 = new Vector(10, 10);
 		b1 = new NormalBall(c052, v1010);
+		a1 = new Alpha(c052, v1010.plus(new Vector(-2, -2)));
 	}
 
 	@Test
@@ -78,6 +82,12 @@ class NormalBallTest {
 		b1.hitPaddle(r1138, new Vector(0,-10));
 		assertEquals(b1.getVelocity(),new Vector(-10,8));
 		assertEquals(b1.getLocation(), c052);
+		
+		Set<Alpha> sa1 = new HashSet<Alpha> (); 
+		sa1.add(a1);
+		System.out.print(b1.getLinkedAlphas());
+		System.out.print(sa1);
+		assertEquals(b1.getLinkedAlphas(), sa1); //werkt niet, idk whyyyy
 	}
 	
 	@Test

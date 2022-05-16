@@ -6,13 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import radioactivity.Alpha;
 import radioactivity.Ball;
-import radioactivity.NormalBall;
-import radioactivity.SuperChargedBall;
-import utils.Circle;
 import utils.Point;
-import utils.Rect;
 import utils.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;

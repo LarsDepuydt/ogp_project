@@ -19,7 +19,7 @@ import breakout.BreakoutState;
  */
 public abstract class Ball {
 	
-	private int eCharge = -2;
+	private int eCharge;
     /**
      * @peerObjects
      */
@@ -54,9 +54,29 @@ public abstract class Ball {
 	public Vector getVelocity() {
 		return velocity;
 	}
-
+	
+	/**
+	 * Return this ball's electric charge.
+	 */
 	public int getEcharge() {
 		return eCharge;
+	}
+	
+	/**
+	 * Calculate the charge of the ball that is dependant of linkedAlphas().
+	 * 
+	 */
+	public void calculateCharge() {
+		int sign = 1;
+		if (this.getLinkedAlphas().size() % 2 == 1) {
+			sign = -1;
+		}
+		if (this.getLinkedAlphas().size() == 0) {
+			eCharge = sign;
+		}
+		else {
+			eCharge = sign*this.getLinkedAlphas().size();
+		}
 	}
 
 	/**
