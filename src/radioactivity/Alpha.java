@@ -63,8 +63,9 @@ public class Alpha {
 	 * @peerObjects
 	 */
 	public Set<Ball> getLinkedBalls() {
-//		return Set.copyOf(linkedBalls);
-		return linkedBalls;
+		Set<Ball> dummySetBalls = new HashSet<>();
+		dummySetBalls.addAll(linkedBalls);
+		return dummySetBalls;
 	}
 
 	/**

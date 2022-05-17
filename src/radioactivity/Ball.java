@@ -83,8 +83,9 @@ public abstract class Ball {
 	 * @peerObjects
 	 */
 	public Set<Alpha> getLinkedAlphas() {
-//		return Set.copyOf(linkedAlphas);
-		return linkedAlphas;
+		Set<Alpha> dummySetAlphas = new HashSet<>();
+		dummySetAlphas.addAll(linkedAlphas);
+		return dummySetAlphas;
 	}
 	
 	//add ball to ball set, and return the set. (purely for documentation purposes)
@@ -102,14 +103,14 @@ public abstract class Ball {
 	}
 		
 	//remove ball from ball set, and return the set. (purely for documentation purposes)
-	public static<T> Set<T> removeBallfromSet(Set<T> a, Ball b) 
+	public static Set<Ball> removeBallfromSet(Set<Ball> a, Ball b) 
 	{
 		a.remove(b);
 		return a;
 	}
 		
 	//remove alpha from alpha set, and return the set. (purely for documentation purposes)
-	public static<T> Set<T> removeAlphafromSet(Set<T> a, Alpha b) 
+	public static Set<Alpha> removeAlphafromSet(Set<Alpha> a, Alpha b) 
     {
         a.remove(b);
 		return a;

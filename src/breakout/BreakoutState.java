@@ -112,7 +112,8 @@ public class BreakoutState {
 		}
 		this.blocks = blocks.clone();
 		this.paddle = paddle;
-
+		this.alphas = new Alpha[0];
+		
 		this.topWall = new Rect(new Point(0, -1000), new Point(bottomRight.getX(), 0));
 		this.rightWall = new Rect(new Point(bottomRight.getX(), 0),
 				new Point(bottomRight.getX() + 1000, bottomRight.getY()));
@@ -194,7 +195,7 @@ public class BreakoutState {
 	public Alpha[] getAlphas() {
 		Alpha[] rarray = new Alpha[alphas.length];
 		for (int i = 0; i < alphas.length ; ++i ) {
-			rarray[i] = alphas[i];
+		   rarray[i] = alphas[i];
 		}
 		return rarray;
 	}
@@ -276,7 +277,13 @@ public class BreakoutState {
 	}
 
 	private Ball removeDead(Ball ball) {
-		if( ball.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { return null; }
+		if( ball.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { 
+			for (Alpha alpha : ball.getLinkedAlphas()) {
+				ball.removeLink(alpha);
+			}
+			return null; 
+			}
+		
 		else { return ball; }
 	}
 	
