@@ -80,11 +80,11 @@ class AlphaTest {
 	
 	@Test
 	void testLinks() {
-		a1.addLink(b1);
+		b1.addLink(a1);
 		Set<Ball> sb1 = new HashSet<>();
 		sb1.add(b1);
 		assertEquals(a1.getLinkedBalls(), sb1);
-		a1.removeLink(b1);
+		b1.removeLink(a1);
 		Set<Ball> emptySet = new HashSet<>();
 		assertEquals(a1.getLinkedBalls(), emptySet);
 	}

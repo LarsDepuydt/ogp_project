@@ -2,6 +2,7 @@ package breakout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import utils.Point;
 import utils.Circle;
 import utils.Rect;
@@ -185,24 +186,17 @@ public class BreakoutState {
 	}
 	
 	/**
-	 * Return the alpha's of this BreakoutState.
+	 * Return the alpha's of this BreakoutState. (yield a fresh array with peer object references)
 	 *
 	 * @creates result
      * @creates ...result
 	 */
 	public Alpha[] getAlphas() {
-
-		if (alphas == null) {
-			return new Alpha[0];
+		Alpha[] rarray = new Alpha[alphas.length];
+		for (int i = 0; i < alphas.length ; ++i ) {
+			rarray[i] = alphas[i];
 		}
-		return alphas;
-//
-//		Alpha[] res = new Alpha[alphas.length];
-//		for (int i = 0 ; i < balls.length ; ++i) {
-//			res[i] = alphas[i].clone();
-//		}
-//		return res;
-////		return balls.clone();
+		return rarray;
 	}
 	
 	/**
@@ -212,13 +206,11 @@ public class BreakoutState {
      * @creates ...result
 	 */
 	public Ball[] getBalls() {
-		return balls;
-//		Ball[] res = new Ball[balls.length];
-//		for (int i = 0 ; i < balls.length ; ++i) {
-//			res[i] = balls[i].clone();
-//		}
-//		return res;
-////		return balls.clone();
+	    Ball[] rarray = new Ball[balls.length];
+	    for (int i = 0; i < balls.length ; ++i) {
+	    	rarray[i] = balls[i];
+	    }
+	    return rarray;
 	}
 
 	/**
@@ -291,7 +283,7 @@ public class BreakoutState {
 	private Alpha removeDead(Alpha alpha) {
 		if( alpha.getLocation().getBottommostPoint().getY() > bottomRight.getY()) { 
 			for (Ball ball : alpha.getLinkedBalls()) {
-				alpha.removeLink(ball);
+				ball.removeLink(alpha);
 			}
 			return null; 
 			}
@@ -421,7 +413,7 @@ public class BreakoutState {
 		if (alpha.collidesWith(paddle.getLocation())) {
 			alpha.hitPaddle(paddle.getLocation(), paddleVel);
 			Ball createdBall = new NormalBall(alpha.getLocation(),alpha.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
-			alpha.addLink(createdBall);
+			createdBall.addLink(alpha);
 			
 			Ball[] newballs = balls;
 			balls = new Ball[newballs.length + 1];

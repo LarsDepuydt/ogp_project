@@ -87,43 +87,35 @@ public abstract class Ball {
 		return linkedAlphas;
 	}
 	
-	// Generic method to merge a set and a Ball object.
-	@SuppressWarnings("unchecked")
-	public static<T> Set<T> mergeSetBall(Set<T> a, Ball b)
+	//add ball to ball set, and return the set. (purely for documentation purposes)
+	public static Set<Ball> addBalltoSet(Set<Ball> a, Ball b)
 	{
-		Set<T> set = new HashSet<>();
-		 
-		set.addAll(a);
-		set.add((T) b);
-		 
-	    return set;
+		a.add(b);
+		return a;
 	}
 		
-	//Generic method to merge a set and an Alpha object.
-	@SuppressWarnings("unchecked")
-	public static<T> Set<T> mergeSetAlpha(Set<T> a, Alpha b)
+	//add alpha to alpha set, and return the set. (purely for documentation purposes)
+	public static Set<Alpha> addAlphatoSet(Set<Alpha> a, Alpha b)
 	{
-		Set<T> set = new HashSet<>();
-		 
-		set.addAll(a);
-		set.add((T) b);
-		 
-	    return set;
+		a.add(b);
+		return a;
 	}
 		
-	//Generic method to remova a Ball object from a set.
+	//remove ball from ball set, and return the set. (purely for documentation purposes)
 	public static<T> Set<T> removeBallfromSet(Set<T> a, Ball b) 
 	{
 		a.remove(b);
 		return a;
 	}
 		
-	//Generic method to remova an Alpha object from a set.
-    public static<T> Set<T> removeAlphafromSet(Set<T> a, Alpha b) 
-	{
-	    a.remove(b);
+	//remove alpha from alpha set, and return the set. (purely for documentation purposes)
+	public static<T> Set<T> removeAlphafromSet(Set<T> a, Alpha b) 
+    {
+        a.remove(b);
 		return a;
 	}
+		 
+
 
 	/**
 	 * Add a link between a ball and an alpha particle
@@ -133,9 +125,9 @@ public abstract class Ball {
 	 * @mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
 	 *
 	 * @post The given linked alpha particles equal the old linked alpha particles plus this alpha particle.
-	 * 	| getLinkedAlphas().equals(mergeSetAlpha(old(getLinkedAlphas()),alpha))
+	 * 	| getLinkedAlphas().equals(addAlphatoSet(old(getLinkedAlphas()),alpha))
 	 * @post the linked balls of the alpha are its old linked balls plus this
-	 *  | alpha.getLinkedBalls().equals(mergeSetBall(old(alpha.getLinkedBalls()), this))
+	 *  | alpha.getLinkedBalls().equals(addBalltoSet(old(alpha.getLinkedBalls()), this))
 	 */
 	public void addLink(Alpha alpha) {
 		if (alpha == null) {
