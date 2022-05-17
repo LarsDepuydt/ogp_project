@@ -3,6 +3,8 @@ package radioactivity;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,7 @@ class SuperChargedBallTest {
 	Circle c389;
 	Ball b1;
 	Ball b2;
+	Alpha a1;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -40,6 +43,7 @@ class SuperChargedBallTest {
 		v1010 = new Vector(10, 10);
 		b1 = new SuperChargedBall(c052, v1010,1000);
 		b2 = new SuperChargedBall(c052, v1010,-1000);
+		a1 = new Alpha(c052, v1010.plus(new Vector(-2, -2)));
 	}
 
 	@Test
@@ -47,6 +51,14 @@ class SuperChargedBallTest {
 		assertEquals(p05, b1.getLocation().getCenter());
 		assertEquals(2, b1.getLocation().getDiameter());
 		assertEquals(v1010, b1.getVelocity());
+		assertEquals(Color.red, b1.getColor());
+	}
+	
+	@Test
+	void testMove() {
+		b1.move(new Vector(0,-10), 40);
+		assertEquals(b1.getVelocity(), v1010);
+		assertEquals(new Point(0,-5), b1.getLocation().getCenter());
 	}
 
 	@Test
@@ -89,15 +101,15 @@ class SuperChargedBallTest {
 		assertEquals(b1.getLocation(), c052);
 	}
 	
-	@Test
-	void testMove() {
-		b1.move(new Vector(0,-10), 40);
-		assertEquals(b1.getVelocity(), v1010);
-		assertEquals(new Point(0,-5), b1.getLocation().getCenter());
+	@Test 
+	void testLinks() {
+		b1.addLink(a1);
+		Set<Alpha> sa1 = new HashSet<>();
+		sa1.add(a1);
+		assertEquals(b1.getLinkedAlphas(), sa1);
+		b1.removeLink(a1);
+		Set<Alpha> emptySet = new HashSet<>();
+		assertEquals(a1.getLinkedBalls(), emptySet);
 	}
 	
-	@Test
-	void testGetColor() {
-		assertEquals(Color.red, b1.getColor());
-	}
 }

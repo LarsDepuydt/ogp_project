@@ -49,6 +49,14 @@ class NormalBallTest {
 		assertEquals(p05, b1.getLocation().getCenter());
 		assertEquals(2, b1.getLocation().getDiameter());
 		assertEquals(v1010, b1.getVelocity());
+		assertEquals(Color.yellow, b1.getColor());
+	}
+	
+	@Test
+	void testMove() {
+		b1.move(new Vector(0,-10), 40);
+		assertEquals(b1.getVelocity(), v1010);
+		assertEquals(new Point(0,-5), b1.getLocation().getCenter());
 	}
 
 	@Test
@@ -81,24 +89,17 @@ class NormalBallTest {
 	void testHitPaddle() {
 		b1.hitPaddle(r1138, new Vector(0,-10));
 		assertEquals(b1.getVelocity(),new Vector(-10,8));
-		assertEquals(b1.getLocation(), c052);
-		
-		Set<Alpha> sa1 = new HashSet<Alpha> (); 
+		assertEquals(b1.getLocation(), c052); //testen of er een alpha wordt gemaakt gaat niet, dat is een methode in breakoutstate.
+	}
+	
+	@Test 
+	void testLinks() {
+		b1.addLink(a1);
+		Set<Alpha> sa1 = new HashSet<>();
 		sa1.add(a1);
-		System.out.print(b1.getLinkedAlphas());
-		System.out.print(sa1);
-		assertEquals(b1.getLinkedAlphas(), sa1); //werkt niet, idk whyyyy
-	}
-	
-	@Test
-	void testMove() {
-		b1.move(new Vector(0,-10), 40);
-		assertEquals(b1.getVelocity(), v1010);
-		assertEquals(new Point(0,-5), b1.getLocation().getCenter());
-	}
-	
-	@Test
-	void testGetColor() {
-		assertEquals(Color.yellow, b1.getColor());
+		assertEquals(b1.getLinkedAlphas(), sa1);
+		b1.removeLink(a1);
+		Set<Alpha> emptySet = new HashSet<>();
+		assertEquals(a1.getLinkedBalls(), emptySet);
 	}
 }

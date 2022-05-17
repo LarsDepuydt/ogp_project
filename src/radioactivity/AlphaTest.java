@@ -23,6 +23,7 @@ class AlphaTest {
 	Circle c572;
 	Vector vm1m8;
 	Alpha a1;
+	Ball b1;
 	
 
 	@BeforeEach
@@ -35,6 +36,7 @@ class AlphaTest {
 		c572 = new Circle(p57, 2);
 		vm1m8 = new Vector(-1, -8);
 		a1 = new Alpha(c572, vm1m8);
+		b1 = new NormalBall(c572, new Vector(10, 10).plus(new Vector(-2, -2)));
 	}
 	
 	@Test
@@ -44,5 +46,46 @@ class AlphaTest {
 		assertEquals(a1.getVelocity(),vm1m8);
 		Set<Alpha> emptySet = new HashSet<Alpha> ();
 		assertEquals(a1.getLinkedBalls(),emptySet);
+	}
+	
+	@Test
+	void testNoInteractionBlocks() {
+		a1.move(new Vector(-2, -16), 0);
+		assertEquals(a1.getVelocity(), vm1m8);
+		assertEquals(a1.getLocation().getCenter(), new Point(3, -9));
+	}
+	
+	@Test
+	void testMove() {
+		a1.move(new Vector(-1, -8), 0);
+		assertEquals(a1.getVelocity(), vm1m8);
+		assertEquals(a1.getLocation().getCenter(), new Point(4,-1));
+	}
+	
+	@Test
+	void testHitWall() {
+		a1.hitWall(new Rect(new Point(3, 4),new Point(8, 6)));
+		assertEquals(a1.getVelocity(), new Vector(-1, 8));
+		assertEquals(a1.getLocation(), c572);
+	}
+	
+	@Test
+	void testHitPaddle() {
+		a1.setLocation(c572);
+		a1.setVelocity(new Vector(10, 10));
+		a1.hitPaddle(new Rect(new Point(3, 7), new Point(8, 8)), new Vector(10, 0));
+		assertEquals(a1.getLocation(), c572);
+		assertEquals(a1.getVelocity(), new Vector(10, -10).plus(new Vector(10, 0).scaledDiv(5))); //testen of er een ball wordt gemaakt gaat niet, dat is een methode in breakoutstate.
+	}
+	
+	@Test
+	void testLinks() {
+		a1.addLink(b1);
+		Set<Ball> sb1 = new HashSet<>();
+		sb1.add(b1);
+		assertEquals(a1.getLinkedBalls(), sb1);
+		a1.removeLink(b1);
+		Set<Ball> emptySet = new HashSet<>();
+		assertEquals(a1.getLinkedBalls(), emptySet);
 	}
 }
