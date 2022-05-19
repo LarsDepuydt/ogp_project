@@ -8,10 +8,12 @@ import utils.Rect;
 import utils.Vector;
 
 /**
- * Represents the state of an alphaa particle in the breakout game.
+ * Represents the state of an alpha particle in the breakout game.
  * 
  * @invar | getLocation() != null
  * @invar | getVelocity() != null
+ * @invar | getLinkedBalls != null
+ * @invar | Arrays.stream(getLinkedBalls()).allMatch(Objects::nonNull)
  */
 public class Alpha {
 	

@@ -9,13 +9,16 @@ import utils.Point;
 import utils.Circle;
 import utils.Rect;
 import utils.Vector;
-import breakout.BreakoutState;
 
 /**
  * Represents the state of a ball in the breakout game.
  * 
  * @invar | getLocation() != null
  * @invar | getVelocity() != null
+ * @invar | getLinkedALphas() != null
+ * @invar | Arrays.stream(getLinkedALphas()).allMatch(Objects::nonNull)
+ * @invar | getEcharge() != null
+ * @invar | getEcharge() != 0
  */
 public abstract class Ball {
 	
@@ -65,17 +68,21 @@ public abstract class Ball {
 	/**
 	 * Calculate the charge of the ball that is dependant of linkedAlphas().
 	 * 
+	 * @post | eCharge != 0 (of mss is invar al genoeg?)
+	 * @post | ...
 	 */
 	public void calculateCharge() {
+		var linkedSize = this.getLinkedAlphas().size();
+		
 		int sign = 1;
-		if (this.getLinkedAlphas().size() % 2 == 1) {
+		if (linkedSize % 2 == 1) {
 			sign = -1;
 		}
-		if (this.getLinkedAlphas().size() == 0) {
+		
+		if (linkedSize == 0) {
 			eCharge = sign;
-		}
-		else {
-			eCharge = sign*this.getLinkedAlphas().size();
+		} else {
+			eCharge = sign*linkedSize;
 		}
 	}
 

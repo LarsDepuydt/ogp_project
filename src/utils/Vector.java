@@ -160,7 +160,6 @@ public class Vector {
 	}
 	
 	/**
-	 * 
 	 * returns new speed of the ball after magnetism occurs.
 	 */
 	public static Vector magnetSpeed(Point alphaPos, Point ballPos, int ballEcharge, Vector ballSpeed) {
