@@ -6,12 +6,12 @@ import java.awt.Color;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.Point;
-import utils.Circle;
-import utils.Rect;
-import utils.Vector;
-import radioactivity.NormalBall;
-import radioactivity.Ball;
+import breakout.utils.Point;
+import breakout.utils.Circle;
+import breakout.utils.Rect;
+import breakout.utils.Vector;
+import breakout.radioactivity.NormalBall;
+import breakout.radioactivity.Ball;
 
 class NormalBlockStateTest {
 	Point p11;

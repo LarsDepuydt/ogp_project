@@ -1,4 +1,4 @@
-package radioactivity;
+package breakout.radioactivity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,10 +8,10 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.Point;
-import utils.Circle;
-import utils.Rect;
-import utils.Vector;
+import breakout.utils.Point;
+import breakout.utils.Circle;
+import breakout.utils.Rect;
+import breakout.utils.Vector;
 
 class SuperChargedBallTest {
 	Point p11;

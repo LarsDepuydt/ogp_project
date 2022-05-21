@@ -1,7 +1,7 @@
 package breakout;
 
 import java.awt.Color;
-import utils.Rect;
+import breakout.utils.Rect;
 
 
 public class ReplicatorBlockState extends NormalBlockState {

@@ -1,8 +1,8 @@
 package breakout;
 
 import java.awt.Color;
-import utils.Rect;
-import radioactivity.Ball;
+import breakout.utils.Rect;
+import breakout.radioactivity.Ball;
 
 
 public class SturdyBlockState extends BlockState {

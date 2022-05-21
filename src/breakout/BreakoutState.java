@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-import utils.Point;
-import utils.Circle;
-import utils.Rect;
-import utils.Vector;
-import radioactivity.Alpha;
-import radioactivity.Ball;
-import radioactivity.NormalBall;
+import breakout.utils.Point;
+import breakout.utils.Circle;
+import breakout.utils.Rect;
+import breakout.utils.Vector;
+import breakout.radioactivity.Alpha;
+import breakout.radioactivity.Ball;
+import breakout.radioactivity.NormalBall;
 
 //import breakout.gui.GameView;
 
