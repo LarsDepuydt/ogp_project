@@ -1,6 +1,8 @@
 package radioactivity;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import utils.Point;
 import utils.Circle;
 import utils.Rect;
@@ -47,6 +49,7 @@ class NormalBallTest {
 	@Test
 	void testBall() {
 		assertEquals(p05, b1.getLocation().getCenter());
+		assertEquals(p05, b1.getCenter());
 		assertEquals(2, b1.getLocation().getDiameter());
 		assertEquals(v1010, b1.getVelocity());
 		assertEquals(Color.yellow, b1.getColor());
@@ -98,8 +101,20 @@ class NormalBallTest {
 		Set<Alpha> sa1 = new HashSet<>();
 		sa1.add(a1);
 		assertEquals(b1.getLinkedAlphas(), sa1);
+		assertEquals(b1.getEcharge(), -1);
 		b1.removeLink(a1);
 		Set<Alpha> emptySet = new HashSet<>();
 		assertEquals(a1.getLinkedBalls(), emptySet);
+		assertEquals(b1.getEcharge(), 1);
+	}
+
+	@Test
+	void testSetters() {
+		b1.setLocation(c389);
+		var newSpeed = new Vector(3,2);
+		b1.setVelocity(newSpeed);
+		assertEquals(p38, b1.getLocation().getCenter());
+		assertEquals(newSpeed, b1.getVelocity());
+
 	}
 }

@@ -1,6 +1,8 @@
 package breakout;
 
 import java.awt.Color;
+
+import radioactivity.Alpha;
 import utils.Rect;
 import radioactivity.Ball;
 import radioactivity.SuperChargedBall;
@@ -16,13 +18,19 @@ public class PowerupBallBlockState extends NormalBlockState {
 	}
 
 	@Override
-	public Ball ballStateAfterHit(Ball ballState) {
-		return new SuperChargedBall(ballState.getLocation(), ballState.getVelocity(), SUPERCHARGED_BALL_LIFETIME);
+	public Color getColor() {
+		return COLOR;
 	}
 
 	@Override
-	public Color getColor() {
-		return COLOR;
+	public Ball ballStateAfterHit(Ball ballState) {
+		Ball b = new SuperChargedBall(ballState.getLocation(), ballState.getVelocity(), SUPERCHARGED_BALL_LIFETIME);
+		if (ballState.getLinkedAlphas() != null) {
+			for (Alpha a : ballState.getLinkedAlphas()) {
+				b.addLink(a);
+			}
+		}
+		return b;
 	}
 
 }

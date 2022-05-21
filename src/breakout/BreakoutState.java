@@ -287,8 +287,6 @@ public class BreakoutState {
 			if (alpha.collidesWith(wall)) {
 				alpha.hitWall(wall);
 				for (Ball ball : alpha.getLinkedBalls()) {
-					ball.calculateCharge();
-					
 					var newVelocity = Vector.magnetSpeed(alpha.getLocation().getCenter(), ball.getLocation().getCenter(), ball.getEcharge(), ball.getVelocity());
 					ball.setVelocity(newVelocity);
 				}

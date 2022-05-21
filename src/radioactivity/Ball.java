@@ -71,7 +71,7 @@ public abstract class Ball {
 	 * @post | eCharge != 0 (of mss is invar al genoeg?)
 	 * @post | ...
 	 */
-	public void calculateCharge() {
+	private void calculateCharge() {
 		var linkedSize = this.getLinkedAlphas().size();
 		
 		int sign = 1;
@@ -144,6 +144,8 @@ public abstract class Ball {
 
 		linkedAlphas.add(alpha);
 		alpha.linkedBalls.add(this);
+
+		calculateCharge();
 	}
 
 	/**
@@ -165,6 +167,8 @@ public abstract class Ball {
 
 		alpha.linkedBalls.remove(this);
 		linkedAlphas.remove(alpha);
+
+		calculateCharge();
 	}
 
 	/**
@@ -306,9 +310,8 @@ public abstract class Ball {
 	public Ball clone() {
 		return cloneWithVelocity(getVelocity());
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
+
+	public boolean equalContent(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -324,15 +327,4 @@ public abstract class Ball {
 			return false;
 		return true;
 	}
-	
-	/**
-	 * Careful: depends on mutable state of this object.
-	 * As a result, Balls must not be modified while they are used as key in a hash set or table. 
-	 * 
-	 * @inspects | this
-	 */
-	@Override
-	public int hashCode() {
-		return Objects.hash(location, velocity);
-	}	
 }

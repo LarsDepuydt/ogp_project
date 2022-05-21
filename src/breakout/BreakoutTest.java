@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
+import radioactivity.Alpha;
 import radioactivity.Ball;
 import utils.Point;
 import utils.Vector;
@@ -25,6 +27,13 @@ public class BreakoutTest {
 	Ball[] field_ballsLeft;
 	Ball[] field_ballsTop;
 	Ball[] field_ballsBottom;
+
+	Alpha alpha1;
+	Alpha alpha2;
+	Alpha alpha3;
+	Alpha[] alphas1;
+	Alpha[] alphas2;
+	Alpha[] collision_alphas;
 
 
 	BlockState block1;
@@ -47,8 +56,11 @@ public class BreakoutTest {
 	PaddleState illigalPaddleRight;
 
 	BreakoutState b1;
+	BreakoutState b1a;
 	BreakoutState b2;
+	BreakoutState b2a;
 	BreakoutState collision_breakout;
+	BreakoutState collision_alpha_breakout;
 	BreakoutState collision_breakoutSuperchargedBall;
 	BreakoutState collision_breakoutSturdy;
 	BreakoutState collision_breakoutReplicator;
@@ -75,6 +87,13 @@ public class BreakoutTest {
 		ballsArray.add(ball1);
 		balls1 = ballsArray.toArray(new Ball[]{});
 
+		alpha1 = facade.createAlpha(new Point(10, 20), 20, new Vector(5, -7) );
+		alpha2 = facade.createAlpha(new Point(100, 100), 1, new Vector(10, 10) );
+		alpha3 = facade.createAlpha(new Point(200, 50), 35, new Vector(-3, 9) );
+
+		var alphasArray = new ArrayList<Alpha>();
+		alphasArray.add(alpha1);
+		alphas1 = alphasArray.toArray(new Alpha[]{});
 
 		block2 = facade.createNormalBlockState(new Point(20,40), new Point(500,300));
 		block1 = facade.createPowerupBallBlockState(new Point(1,2), new Point(5,7));
@@ -89,11 +108,16 @@ public class BreakoutTest {
 
 
 		b1 = new BreakoutState(balls1, blocks1, bottomRight1, paddle1);
+		b1a = new BreakoutState(alphas1, balls1, blocks1, bottomRight1, paddle1);
 
 
 		ballsArray.add(ball2);
 		ballsArray.add(ball3);
 		balls2 = ballsArray.toArray(new Ball[]{});
+
+		alphasArray.add(alpha2);
+		alphasArray.add(alpha3);
+		alphas2 = alphasArray.toArray(new Alpha[]{});
 
 		blocksArray.add(block2);
 		blocksArray.add(block3);
@@ -104,11 +128,17 @@ public class BreakoutTest {
 
 
 		b2 = new BreakoutState(balls2, blocks2, bottomRight2, paddle2);
+		b2a = new BreakoutState(alphas2, balls2, blocks2, bottomRight2, paddle2);
+
 
 		// test collision
 		var collisionBallsArrayBottom = new ArrayList<Ball>();
 		collisionBallsArrayBottom.add(facade.createNormalBall(new Point(2, 20), 5, new Vector(1, -5)));
 		collision_balls = collisionBallsArrayBottom.toArray(new Ball[]{});
+
+		var collisionAlphasArrayBottom = new ArrayList<Alpha>();
+		collisionAlphasArrayBottom.add(facade.createAlpha(new Point(2, 20), 5, new Vector(-1, 5)));
+		collision_alphas = collisionAlphasArrayBottom.toArray(new Alpha[]{});
 
 		var collisionSuperchargedBallsArrayBottom = new ArrayList<Ball>();
 		collisionSuperchargedBallsArrayBottom.add(facade.createSuperchargedBall(new Point(2, 20), 5, new Vector(1, -5), 10));
@@ -133,6 +163,7 @@ public class BreakoutTest {
 
 
 		collision_breakout = new BreakoutState(collision_balls, collision_blocks, bottomRight1, paddle2);
+		collision_alpha_breakout = new BreakoutState(collision_alphas, collision_balls, new BlockState[0], bottomRight1, paddle2);
 		collision_breakoutSuperchargedBall = new BreakoutState(collision_ballsSupercharged, collision_blocks, bottomRight1, paddle2);
 		collision_breakoutSturdy = new BreakoutState(collision_balls, collision_blocksSturdy, bottomRight1, paddle2);
 		collision_breakoutReplicator = new BreakoutState(collision_balls, collision_blocksReplicator, bottomRight1, paddle2);
@@ -171,9 +202,32 @@ public class BreakoutTest {
 
 	@Test
 	void testBallsState() {
-		assertTrue(Arrays.equals(balls1, b1.getBalls()));
-		assertTrue(Arrays.equals(balls2, b2.getBalls()));
+		boolean equal1 = balls1.length == b1.getBalls().length;
+		for (int i = 0; i < balls1.length; ++i) {
+			equal1 = equal1 & balls1[i].equalContent(b1.getBalls()[i]);
+		}
+		assertTrue(equal1);
+		boolean equal2 = balls2.length == b2.getBalls().length;
+		for (int i = 0; i < balls2.length; ++i) {
+			equal2 = equal2 & balls2[i].equalContent(b2.getBalls()[i]);
+		}
+		assertTrue(equal2);
 		assertNotEquals(b1.getBalls(), b2.getBalls());
+	}
+
+	@Test
+	void testAlphasState() {
+		boolean equal1 = alphas1.length == b1a.getAlphas().length;
+		for (int i = 0; i < alphas1.length; ++i) {
+			equal1 = equal1 & alphas1[i].equalContent(b1a.getAlphas()[i]);
+		}
+		assertTrue(equal1);
+		boolean equal2 = alphas2.length == b2a.getAlphas().length;
+		for (int i = 0; i < alphas2.length; ++i) {
+			equal2 = equal2 & alphas2[i].equalContent(b2a.getAlphas()[i]);
+		}
+		assertTrue(equal2);
+		assertNotEquals(b1a.getAlphas(), b2a.getAlphas());
 	}
 
 	@Test
@@ -211,6 +265,16 @@ public class BreakoutTest {
 		}
 		assertEquals(0, collision_breakout.getBlocks().length);
 		assertEquals(new Vector(1, 5), collision_breakout.getBalls()[0].getVelocity());
+	}
+
+	@Test
+	void testAlphaCollision() {
+		for(int i = 0; i < 3; ++i) {
+			collision_alpha_breakout.tick(0, 1);
+		}
+		assertEquals(0, collision_alpha_breakout.getBlocks().length);
+		assertEquals(new Vector(1, -5), collision_alpha_breakout.getBalls()[0].getVelocity());
+		assertEquals(new Vector(1, 5), collision_alpha_breakout.getAlphas()[0].getVelocity());
 	}
 
 	@Test

@@ -1,6 +1,7 @@
 package radioactivity;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.awt.Color;
 import utils.Circle;
@@ -183,4 +184,20 @@ public class Alpha {
 		location = new Circle(getLocation().getCenter().plus(v), getLocation().getDiameter());
 	}
 
+	public boolean equalContent(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Alpha other = (Alpha) obj;
+		if (!getVelocity().equals(other.getVelocity()))
+			return false;
+		if (!getLocation().getCenter().equals(other.getLocation().getCenter()))
+			return false;
+		if (getLocation().getDiameter() != other.getLocation().getDiameter())
+			return false;
+		return true;
+	}
 }

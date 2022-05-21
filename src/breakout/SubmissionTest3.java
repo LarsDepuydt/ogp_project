@@ -34,8 +34,8 @@ class SubmissionTest3 {
 		Ball ball2 = fac.createNormalBall(defPoint, 700, downSpeed);
 		
 		//because equals should do the default reference check and nothing more.
-		assertNotEquals(alph1, alph2);
 		assertNotEquals(ball1, ball2);
+		assertNotEquals(alph1, alph2);
 	}
 
 	@Test
