@@ -66,9 +66,6 @@ public abstract class Ball {
 	
 	/**
 	 * Calculate the charge of the ball that is dependant of linkedAlphas().
-	 * 
-	 * @post | eCharge != 0 (of mss is invar al genoeg?)
-	 * @post | ...
 	 */
 	private void calculateCharge() {
 		var linkedSize = this.getLinkedAlphas().size();

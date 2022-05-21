@@ -12,7 +12,7 @@ import breakout.utils.Vector;
  * 
  * @invar | getLocation() != null
  * @invar | getVelocity() != null
- * @invar | getLinkedBalls != null
+ * @invar | getLinkedBalls() != null
  * @invar | Arrays.stream(getLinkedBalls()).allMatch(Objects::nonNull)
  */
 public class Alpha {
