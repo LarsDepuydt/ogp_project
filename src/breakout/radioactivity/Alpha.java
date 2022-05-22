@@ -63,6 +63,9 @@ public class Alpha {
 
 	/**
 	 * @peerObjects
+	 *
+	 * @inspects this
+	 * @creates result
 	 */
 	public Set<Ball> getLinkedBalls() {
 		Set<Ball> dummySetBalls = new HashSet<>();
@@ -71,8 +74,6 @@ public class Alpha {
 	}
 
 	/**
-	 * TODO: just a copy of ball, must not bounce on blocks
-	 *
 	 * Check whether this ball collides with a given `rect`.
 	 *
 	 * @pre | rect != null

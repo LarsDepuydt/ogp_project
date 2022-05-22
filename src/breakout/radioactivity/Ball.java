@@ -84,6 +84,9 @@ public abstract class Ball {
 
 	/**
 	 * @peerObjects
+	 *
+	 * @inspects this
+	 * @creates result
 	 */
 	public Set<Alpha> getLinkedAlphas() {
 		Set<Alpha> dummySetAlphas = new HashSet<>();
@@ -126,7 +129,9 @@ public abstract class Ball {
 	 *
 	 * @throws IllegalArgumentException if {@code alpha} is null | alpha == null
 	 *
+	 * @inspects | alpha, this
 	 * @mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
+	 * @mutates | this
 	 *
 	 * @post The given linked alpha particles equal the old linked alpha particles plus this alpha particle.
 	 * 	| getLinkedAlphas().equals(addAlphatoSet(old(getLinkedAlphas()),alpha))
@@ -149,7 +154,9 @@ public abstract class Ball {
 	 *
 	 * @throws IllegalArgumentException if {@code alpha} is null | alpha == null
 	 *
+	 * @inspects | alpha, this
 	 * @mutates_properties | this.getLinkedAlphas(), alpha.getLinkedBalls()
+	 * @mutates | this
 	 *
 	 * @post This alpha is no longer linked to the ball particle
 	 * 	| getLinkedAlphas().equals(removeAlphafromSet(old(getLinkedAlphas()),alpha))
